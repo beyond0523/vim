@@ -200,26 +200,26 @@ nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 set autoread
 
 " 常规模式下输入 cS 清除行尾空格
-nmap cS :%s/\s\+$//g<CR>:noh<CR>
+nnoremap cS :%s/\s\+$//g<CR>:noh<CR>
 
 " 常规模式下输入 cM 清除行尾 ^M 符号
-nmap cM :%s/\r$//g<CR>:noh<CR>
+nnoremap cM :%s/\r$//g<CR>:noh<CR>
 
 set ignorecase                                        "搜索模式里忽略大小写
 set smartcase                                         "如果搜索模式包含大写字符，不使用 'ignorecase' 选项，只有在输入搜索模式并且打开 'ignorecase' 选项时才会使用
 " set noincsearch                                       "在输入要搜索的文字时，取消实时匹配
 
 " Ctrl + K 插入模式下光标向上移动
-imap <c-k> <Up>
+inoremap <c-k> <Up>
 
 " Ctrl + J 插入模式下光标向下移动
-imap <c-j> <Down>
+inoremap <c-j> <Down>
 
 " Ctrl + H 插入模式下光标向左移动
-imap <c-h> <Left>
+inoremap <c-h> <Left>
 
 " Ctrl + L 插入模式下光标向右移动
-imap <c-l> <Right>
+inoremap <c-l> <Right>
 
 " 启用每行超过80列的字符提示（字体变蓝并加下划线），不启用就注释掉
 au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 80 . 'v.\+', -1)
@@ -258,7 +258,7 @@ if g:isGUI
     set guioptions-=T
     set guioptions-=r
     set guioptions-=L
-    nmap <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
+    nnoremap <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
         \set guioptions-=m <Bar>
         \set guioptions-=T <Bar>
         \set guioptions-=r <Bar>
@@ -275,16 +275,16 @@ endif
 "  < 编译、连接、运行配置 (目前只配置了C、C++、Java语言)>
 " -----------------------------------------------------------------------------
 " F9 一键保存、编译、连接存并运行
-nmap <F9> :call Run()<CR>
-imap <F9> <ESC>:call Run()<CR>
+nnoremap <F9> :call Run()<CR>
+inoremap <F9> <ESC>:call Run()<CR>
 
 " Ctrl + F9 一键保存并编译
-nmap <c-F9> :call Compile()<CR>
-imap <c-F9> <ESC>:call Compile()<CR>
+nnoremap <c-F9> :call Compile()<CR>
+inoremap <c-F9> <ESC>:call Compile()<CR>
 
 " Ctrl + F10 一键保存并连接
-nmap <c-F10> :call Link()<CR>
-imap <c-F10> <ESC>:call Link()<CR>
+nnoremap <c-F10> :call Link()<CR>
+inoremap <c-F10> <ESC>:call Link()<CR>
 
 let s:LastShellReturn_C = 0
 let s:LastShellReturn_L = 0
@@ -676,7 +676,7 @@ au! BufRead,BufNewFile,BufEnter *.{c,cpp,h,java,javascript} call CSyntaxAfter()
 " 用于显示对齐线，与 indent_guides 在显示方式上不同，根据自己喜好选择了
 " 在终端上会有屏幕刷新的问题，这个问题能解决有更好了
 " 开启/关闭对齐线
-nmap <leader>il :IndentLinesToggle<CR>
+nnoremap <leader>il :IndentLinesToggle<CR>
 
 " 设置Gvim的对齐线样式
 if g:isGUI
@@ -780,7 +780,7 @@ set completeopt=menu                        "关闭预览窗口
 "  < SrcExpl 插件配置 >
 " -----------------------------------------------------------------------------
 " 增强源代码浏览，其功能就像Windows中的"Source Insight"
-nmap <F3> :SrcExplToggle<CR>                "打开/闭浏览窗口
+nnoremap <F3> :SrcExplToggle<CR>                "打开/闭浏览窗口
 
 " -----------------------------------------------------------------------------
 "  < std_c 插件配置 >
@@ -984,10 +984,11 @@ nnoremap w :w <cr>
 nnoremap q :q! <cr>
 " 关闭窗口
 nnoremap <leader>c :bd <cr>
-" esc
+" 返回普通模式
 inoremap <leader>e <esc>
-" 关闭窗口
 cnoremap <leader>e <esc>
+vnoremap <leader>e <esc>
+snoremap <leader>e <esc>
 " 粘贴模式
 nnoremap <leader>p :set paste <cr>
 inoremap <leader>p :set paste <cr>
@@ -1009,8 +1010,3 @@ nnoremap <m-j> :resize +5<cr>
 nnoremap <m-k> :resize -5<cr>
 nnoremap <m-h> :vertical resize -5<cr>
 nnoremap <m-l> :vertical resize +5<cr>
-" 插入模式移动光标 alt + 方向键
-inoremap <m-j> <Down>
-inoremap <m-k> <Up>
-inoremap <m-h> <left>
-inoremap <m-l> <Right>
