@@ -971,10 +971,10 @@ let mapleader = ","
 "nnoremap <leader><leader>h <Plug>(easymotion-linebackward)
 "nnoremap <leader><leader>l <Plug>(easymotion-lineforward)
 "map <leader> <Plug>(easymotion-prefix)
-"map <leader>f <Plug>(easymotion-bd-f)
-"nmap <leader>f <Plug>(easymotion-overwin-f)
-"map  <Leader>w <Plug>(easymotion-bd-w)
-"nmap <Leader>w <Plug>(easymotion-overwin-w)
+"map <leader><leader>f <Plug>(easymotion-bd-f)
+"nmap <leader><leader>f <Plug>(easymotion-overwin-f)
+"map  <leader><Leader>w <Plug>(easymotion-bd-w)
+"nmap <leader><Leader>w <Plug>(easymotion-overwin-w)
 
 
 " 键盘映射
@@ -1010,3 +1010,16 @@ nnoremap <m-j> :resize +5<cr>
 nnoremap <m-k> :resize -5<cr>
 nnoremap <m-h> :vertical resize -5<cr>
 nnoremap <m-l> :vertical resize +5<cr>
+" tab相关操作
+" 新建
+nnoremap <leader>to :tabnew <cr>
+" 前一个
+nnoremap <leader>tp :tabp <cr>
+" 后一个
+nnoremap <leader>tn :tabn <cr>
+" 查看所有
+nnoremap <leader>ts :tabs <cr>
+" 关闭当前
+nnoremap <leader>tc :tabc <cr>
+" 关闭所有
+nnoremap <leader>ta :tabo <cr>
