@@ -120,11 +120,15 @@ if g:islinux
     set rtp+=~/.vim/bundle/vundle/
     call vundle#rc()
 else
+    " 旧bundle方式
     set rtp+=$VIM/vimfiles/bundle/vundle/
     call vundle#rc('$VIM/vimfiles/bundle/')
+    " 新bundle方式
+    " set rtp+=$VIM/vimfiles/bundle/vundle
+    " call vundle#begin()
 endif
 
-" 使用Vundle来管理插件，这个必须要有。
+" 使用Vundle来管理插件，这个必须要有。新方式将bundle替换为plugin
 Bundle 'gmarik/vundle'
 " 安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
 " Bundle 'a.vim'
@@ -155,6 +159,8 @@ Bundle 'majutsushi/tagbar'
 " Bundle 'ZoomWin'
 Bundle 'Lokaltog/vim-easymotion'
 " Bundle 'iamcco/dict.vim'
+" 新方式
+" call vundle#end()
 " 安装插件
 nnoremap <leader>bi :BundleInstall <cr>
 " 更新插件
@@ -177,6 +183,9 @@ if (g:iswindows && g:isGUI)
     source $VIMRUNTIME/menu.vim                       "解决consle输出乱码
     language messages zh_CN.utf-8
 endif
+" 设置帮助手册为中文（默认）
+nnoremap <leader>hc :set helplang=cn <cr>
+nnoremap <leader>he :set helplang=en <cr>
 
 " -----------------------------------------------------------------------------
 " 编写文件时的配置
@@ -218,7 +227,7 @@ endif
 
 " 设置代码配色方案
 if g:isGUI
-    colorscheme Tomorrow-Night-Eighties               "Gvim配色方案
+    colorscheme Tomorrow-Night-Bright                 "Gvim配色方案
 else
     colorscheme Tomorrow-Night-Eighties               "终端配色方案
 endif
@@ -249,327 +258,327 @@ endif
 " -----------------------------------------------------------------------------
 " F9 一键保存、编译、连接存并运行
 nnoremap <F9> :call Run()<CR>
-inoremap <F9> <ESC>:call Run()<CR>
-" Ctrl + F9 一键保存并编译
-nnoremap <c-F9> :call Compile()<CR>
-inoremap <c-F9> <ESC>:call Compile()<CR>
-" Ctrl + F10 一键保存并连接
-nnoremap <c-F10> :call Link()<CR>
-inoremap <c-F10> <ESC>:call Link()<CR>
-
-let s:LastShellReturn_C = 0
-let s:LastShellReturn_L = 0
-let s:ShowWarning = 1
-let s:Obj_Extension = '.o'
-let s:Exe_Extension = '.exe'
-let s:Class_Extension = '.class'
-let s:Sou_Error = 0
-
-let s:windows_CFlags = 'gcc\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-let s:linux_CFlags = 'gcc\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-
-let s:windows_CPPFlags = 'g++\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-let s:linux_CPPFlags = 'g++\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-
-let s:JavaFlags = 'javac\ %'
-
-func! Compile()
-    exe ":ccl"
-    exe ":update"
-    let s:Sou_Error = 0
-    let s:LastShellReturn_C = 0
-    let Sou = expand("%:p")
-    let v:statusmsg = ''
-    if expand("%:e") == "c" || expand("%:e") == "cpp" || expand("%:e") == "cxx"
-        let Obj = expand("%:p:r").s:Obj_Extension
-        let Obj_Name = expand("%:p:t:r").s:Obj_Extension
-        if !filereadable(Obj) || (filereadable(Obj) && (getftime(Obj) < getftime(Sou)))
-            redraw!
-            if expand("%:e") == "c"
-                if g:iswindows
-                    exe ":setlocal makeprg=".s:windows_CFlags
-                else
-                    exe ":setlocal makeprg=".s:linux_CFlags
-                endif
-                echohl WarningMsg | echo " compiling..."
-                silent make
-            elseif expand("%:e") == "cpp" || expand("%:e") == "cxx"
-                if g:iswindows
-                    exe ":setlocal makeprg=".s:windows_CPPFlags
-                else
-                    exe ":setlocal makeprg=".s:linux_CPPFlags
-                endif
-                echohl WarningMsg | echo " compiling..."
-                silent make
-            endif
-            redraw!
-            if v:shell_error != 0
-                let s:LastShellReturn_C = v:shell_error
-            endif
-            if g:iswindows
-                if s:LastShellReturn_C != 0
-                    exe ":bo cope"
-                    echohl WarningMsg | echo " compilation failed"
-                else
-                    if s:ShowWarning
-                        exe ":bo cw"
-                    endif
-                    echohl WarningMsg | echo " compilation successful"
-                endif
-            else
-                if empty(v:statusmsg)
-                    echohl WarningMsg | echo " compilation successful"
-                else
-                    exe ":bo cope"
-                endif
-            endif
-        else
-            echohl WarningMsg | echo ""Obj_Name"is up to date"
-        endif
-    elseif expand("%:e") == "java"
-        let class = expand("%:p:r").s:Class_Extension
-        let class_Name = expand("%:p:t:r").s:Class_Extension
-        if !filereadable(class) || (filereadable(class) && (getftime(class) < getftime(Sou)))
-            redraw!
-            exe ":setlocal makeprg=".s:JavaFlags
-            echohl WarningMsg | echo " compiling..."
-            silent make
-            redraw!
-            if v:shell_error != 0
-                let s:LastShellReturn_C = v:shell_error
-            endif
-            if g:iswindows
-                if s:LastShellReturn_C != 0
-                    exe ":bo cope"
-                    echohl WarningMsg | echo " compilation failed"
-                else
-                    if s:ShowWarning
-                        exe ":bo cw"
-                    endif
-                    echohl WarningMsg | echo " compilation successful"
-                endif
-            else
-                if empty(v:statusmsg)
-                    echohl WarningMsg | echo " compilation successful"
-                else
-                    exe ":bo cope"
-                endif
-            endif
-        else
-            echohl WarningMsg | echo ""class_Name"is up to date"
-        endif
-    else
-        let s:Sou_Error = 1
-        echohl WarningMsg | echo " please choose the correct source file"
-    endif
-    exe ":setlocal makeprg=make"
-endfunc
-
-func! Link()
-    call Compile()
-    if s:Sou_Error || s:LastShellReturn_C != 0
-        return
-    endif
-    if expand("%:e") == "c" || expand("%:e") == "cpp" || expand("%:e") == "cxx"
-        let s:LastShellReturn_L = 0
-        let Sou = expand("%:p")
-        let Obj = expand("%:p:r").s:Obj_Extension
-        if g:iswindows
-            let Exe = expand("%:p:r").s:Exe_Extension
-            let Exe_Name = expand("%:p:t:r").s:Exe_Extension
-        else
-            let Exe = expand("%:p:r")
-            let Exe_Name = expand("%:p:t:r")
-        endif
-        let v:statusmsg = ''
-        if filereadable(Obj) && (getftime(Obj) >= getftime(Sou))
-            redraw!
-            if !executable(Exe) || (executable(Exe) && getftime(Exe) < getftime(Obj))
-                if expand("%:e") == "c"
-                    setlocal makeprg=gcc\ -o\ %<\ %<.o
-                    echohl WarningMsg | echo " linking..."
-                    silent make
-                elseif expand("%:e") == "cpp" || expand("%:e") == "cxx"
-                    setlocal makeprg=g++\ -o\ %<\ %<.o
-                    echohl WarningMsg | echo " linking..."
-                    silent make
-                endif
-                redraw!
-                if v:shell_error != 0
-                    let s:LastShellReturn_L = v:shell_error
-                endif
-                if g:iswindows
-                    if s:LastShellReturn_L != 0
-                        exe ":bo cope"
-                        echohl WarningMsg | echo " linking failed"
-                    else
-                        if s:ShowWarning
-                            exe ":bo cw"
-                        endif
-                        echohl WarningMsg | echo " linking successful"
-                    endif
-                else
-                    if empty(v:statusmsg)
-                        echohl WarningMsg | echo " linking successful"
-                    else
-                        exe ":bo cope"
-                    endif
-                endif
-            else
-                echohl WarningMsg | echo ""Exe_Name"is up to date"
-            endif
-        endif
-        setlocal makeprg=make
-    elseif expand("%:e") == "java"
-        return
-    endif
-endfunc
-
-func! Run()
-    let s:ShowWarning = 0
-    call Link()
-    let s:ShowWarning = 1
-    if s:Sou_Error || s:LastShellReturn_C != 0 || s:LastShellReturn_L != 0
-        return
-    endif
-    let Sou = expand("%:p")
-    if expand("%:e") == "c" || expand("%:e") == "cpp" || expand("%:e") == "cxx"
-        let Obj = expand("%:p:r").s:Obj_Extension
-        if g:iswindows
-            let Exe = expand("%:p:r").s:Exe_Extension
-        else
-            let Exe = expand("%:p:r")
-        endif
-        if executable(Exe) && getftime(Exe) >= getftime(Obj) && getftime(Obj) >= getftime(Sou)
-            redraw!
-            echohl WarningMsg | echo " running..."
-            if g:iswindows
-                exe ":!%<.exe"
-            else
-                if g:isGUI
-                    exe ":!gnome-terminal -x bash -c './%<; echo; echo 请按 Enter 键继续; read'"
-                else
-                    exe ":!clear; ./%<"
-                endif
-            endif
-            redraw!
-            echohl WarningMsg | echo " running finish"
-        endif
-    elseif expand("%:e") == "java"
-        let class = expand("%:p:r").s:Class_Extension
-        if getftime(class) >= getftime(Sou)
-            redraw!
-            echohl WarningMsg | echo " running..."
-            if g:iswindows
-                exe ":!java %<"
-            else
-                if g:isGUI
-                    exe ":!gnome-terminal -x bash -c 'java %<; echo; echo 请按 Enter 键继续; read'"
-                else
-                    exe ":!clear; java %<"
-                endif
-            endif
-            redraw!
-            echohl WarningMsg | echo " running finish"
-        endif
-    endif
-endfunc
-
-" -----------------------------------------------------------------------------
-" 在浏览器中预览 Html 或 PHP 文件
-" -----------------------------------------------------------------------------
-" F5 加浏览器名称缩写调用浏览器预览，启用前先确定有安装相应浏览器，并在下面的配置好其安装目录
-if g:iswindows
-    "以下为只支持Windows系统的浏览器
-
-    " 调用系统IE浏览器预览，如果已卸载可将其注释
-    nmap <F5>ie :call ViewInBrowser("ie")<cr>
-    imap <F5>ie <ESC>:call ViewInBrowser("ie")<cr>
-
-    " 调用IETester(IE测试工具)预览，如果有安装可取消注释
-    " nmap <F5>ie6 :call ViewInBrowser("ie6")<cr>
-    " imap <F5>ie6 <ESC>:call ViewInBrowser("ie6")<cr>
-    " nmap <F5>ie7 :call ViewInBrowser("ie7")<cr>
-    " imap <F5>ie7 <ESC>:call ViewInBrowser("ie7")<cr>
-    " nmap <F5>ie8 :call ViewInBrowser("ie8")<cr>
-    " imap <F5>ie8 <ESC>:call ViewInBrowser("ie8")<cr>
-    " nmap <F5>ie9 :call ViewInBrowser("ie9")<cr>
-    " imap <F5>ie9 <ESC>:call ViewInBrowser("ie9")<cr>
-    " nmap <F5>ie10 :call ViewInBrowser("ie10")<cr>
-    " imap <F5>ie10 <ESC>:call ViewInBrowser("ie10")<cr>
-    " nmap <F5>iea :call ViewInBrowser("iea")<cr>
-    " imap <F5>iea <ESC>:call ViewInBrowser("iea")<cr>
-elseif g:islinux
-    "以下为只支持Linux系统的浏览器
-    "暂未配置，待有时间再弄了
-endif
-
-"以下为支持Windows与Linux系统的浏览器
-
-" 调用Firefox浏览器预览，如果有安装可取消注释
-" nmap <F5>ff :call ViewInBrowser("ff")<cr>
-" imap <F5>ff <ESC>:call ViewInBrowser("ff")<cr>
-
-" 调用Maxthon(遨游)浏览器预览，如果有安装可取消注释
-" nmap <F5>ay :call ViewInBrowser("ay")<cr>
-" imap <F5>ay <ESC>:call ViewInBrowser("ay")<cr>
-
-" 调用Opera浏览器预览，如果有安装可取消注释
-" nmap <F5>op :call ViewInBrowser("op")<cr>
-" imap <F5>op <ESC>:call ViewInBrowser("op")<cr>
-
-" 调用Chrome浏览器预览，如果有安装可取消注释
-" nmap <F5>cr :call ViewInBrowser("cr")<cr>
-" imap <F5>cr <ESC>:call ViewInBrowser("cr")<cr>
-
-" 浏览器调用函数
-function! ViewInBrowser(name)
-    if expand("%:e") == "php" || expand("%:e") == "html"
-        exe ":update"
-        if g:iswindows
-            "获取要预览的文件路径，并将路径中的'\'替换为'/'，同时将路径文字的编码转换为gbk（同cp936）
-            let file = iconv(substitute(expand("%:p"), '\', '/', "g"), "utf-8", "gbk")
-
-            "浏览器路径设置，路径中使用'/'斜杠，更改路径请更改双引号里的内容
-            "下面只启用了系统IE浏览器，如需启用其它的可将其取消注释（得先安装，并配置好安装路径），也可按需增减
-            let SystemIE = "C:/progra~1/intern~1/iexplore.exe"  "系统自带IE目录
-            " let IETester = "F:/IETester/IETester.exe"           "IETester程序目录（可按实际更改）
-            " let Chrome = "F:/Chrome/Chrome.exe"                 "Chrome程序目录（可按实际更改）
-            " let Firefox = "F:/Firefox/Firefox.exe"              "Firefox程序目录（可按实际更改）
-            " let Opera = "F:/Opera/opera.exe"                    "Opera程序目录（可按实际更改）
-            " let Maxthon = "C:/Progra~2/Maxthon/Bin/Maxthon.exe" "Maxthon程序目录（可按实际更改）
-
-            "本地虚拟服务器设置，我测试的是phpStudy2014，可根据自己的修改，更改路径请更改双引号里的内容
-            let htdocs ="F:/phpStudy2014/WWW/"                  "虚拟服务器地址或目录（可按实际更改）
-            let url = "localhost"                               "虚拟服务器网址（可按实际更改）
-        elseif g:islinux
-            "暂时还没有配置，有时间再弄了。
-        endif
-
-        "浏览器调用缩写，可根据实际增减，注意，上面浏览器路径中没有定义过的变量（等号右边为变量）不能出现在下面哟（可将其注释或删除）
-        let l:browsers = {}                             "定义缩写字典变量，此行不能删除或注释
-        " let l:browsers["cr"] = Chrome                   "Chrome浏览器缩写
-        " let l:browsers["ff"] = Firefox                  "Firefox浏览器缩写
-        " let l:browsers["op"] = Opera                    "Opera浏览器缩写
-        " let l:browsers["ay"] = Maxthon                  "遨游浏览器缩写
-        let l:browsers["ie"] = SystemIE                 "系统IE浏览器缩写
-        " let l:browsers["ie6"] = IETester."-ie6"         "调用IETESTER工具以IE6预览缩写（变量加参数）
-        " let l:browsers["ie7"] = IETester."-ie7"         "调用IETESTER工具以IE7预览缩写（变量加参数）
-        " let l:browsers["ie8"] = IETester."-ie8"         "调用IETESTER工具以IE8预览缩写（变量加参数）
-        " let l:browsers["ie9"] = IETester."-ie9"         "调用IETESTER工具以IE9预览缩写（变量加参数）
-        " let l:browsers["ie10"] = IETester."-ie10"       "调用IETESTER工具以IE10预览缩写（变量加参数）
-        " let l:browsers["iea"] = IETester."-al"          "调用IETESTER工具以支持的所有IE版本预览缩写（变量加参数）
-
-        if stridx(file, htdocs) == -1   "文件不在本地虚拟服务器目录，则直接预览（但不能解析PHP文件）
-           exec ":silent !start ". l:browsers[a:name] ." file://" . file
-        else    "文件在本地虚拟服务器目录，则调用本地虚拟服务器解析预览（先启动本地虚拟服务器）
-            let file = substitute(file, htdocs, "http://".url."/", "g")    "转换文件路径为虚拟服务器网址路径
-            exec ":silent !start ". l:browsers[a:name] file
-        endif
-    else
-        echohl WarningMsg | echo " please choose the correct source file"
-    endif
-endfunction
+" inoremap <F9> <ESC>:call Run()<CR>
+" " Ctrl + F9 一键保存并编译
+" nnoremap <c-F9> :call Compile()<CR>
+" inoremap <c-F9> <ESC>:call Compile()<CR>
+" " Ctrl + F10 一键保存并连接
+" nnoremap <c-F10> :call Link()<CR>
+" inoremap <c-F10> <ESC>:call Link()<CR>
+" 
+" let s:LastShellReturn_C = 0
+" let s:LastShellReturn_L = 0
+" let s:ShowWarning = 1
+" let s:Obj_Extension = '.o'
+" let s:Exe_Extension = '.exe'
+" let s:Class_Extension = '.class'
+" let s:Sou_Error = 0
+" 
+" let s:windows_CFlags = 'gcc\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
+" let s:linux_CFlags = 'gcc\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
+" 
+" let s:windows_CPPFlags = 'g++\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
+" let s:linux_CPPFlags = 'g++\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
+" 
+" let s:JavaFlags = 'javac\ %'
+" 
+" func! Compile()
+"     exe ":ccl"
+"     exe ":update"
+"     let s:Sou_Error = 0
+"     let s:LastShellReturn_C = 0
+"     let Sou = expand("%:p")
+"     let v:statusmsg = ''
+"     if expand("%:e") == "c" || expand("%:e") == "cpp" || expand("%:e") == "cxx"
+"         let Obj = expand("%:p:r").s:Obj_Extension
+"         let Obj_Name = expand("%:p:t:r").s:Obj_Extension
+"         if !filereadable(Obj) || (filereadable(Obj) && (getftime(Obj) < getftime(Sou)))
+"             redraw!
+"             if expand("%:e") == "c"
+"                 if g:iswindows
+"                     exe ":setlocal makeprg=".s:windows_CFlags
+"                 else
+"                     exe ":setlocal makeprg=".s:linux_CFlags
+"                 endif
+"                 echohl WarningMsg | echo " compiling..."
+"                 silent make
+"             elseif expand("%:e") == "cpp" || expand("%:e") == "cxx"
+"                 if g:iswindows
+"                     exe ":setlocal makeprg=".s:windows_CPPFlags
+"                 else
+"                     exe ":setlocal makeprg=".s:linux_CPPFlags
+"                 endif
+"                 echohl WarningMsg | echo " compiling..."
+"                 silent make
+"             endif
+"             redraw!
+"             if v:shell_error != 0
+"                 let s:LastShellReturn_C = v:shell_error
+"             endif
+"             if g:iswindows
+"                 if s:LastShellReturn_C != 0
+"                     exe ":bo cope"
+"                     echohl WarningMsg | echo " compilation failed"
+"                 else
+"                     if s:ShowWarning
+"                         exe ":bo cw"
+"                     endif
+"                     echohl WarningMsg | echo " compilation successful"
+"                 endif
+"             else
+"                 if empty(v:statusmsg)
+"                     echohl WarningMsg | echo " compilation successful"
+"                 else
+"                     exe ":bo cope"
+"                 endif
+"             endif
+"         else
+"             echohl WarningMsg | echo ""Obj_Name"is up to date"
+"         endif
+"     elseif expand("%:e") == "java"
+"         let class = expand("%:p:r").s:Class_Extension
+"         let class_Name = expand("%:p:t:r").s:Class_Extension
+"         if !filereadable(class) || (filereadable(class) && (getftime(class) < getftime(Sou)))
+"             redraw!
+"             exe ":setlocal makeprg=".s:JavaFlags
+"             echohl WarningMsg | echo " compiling..."
+"             silent make
+"             redraw!
+"             if v:shell_error != 0
+"                 let s:LastShellReturn_C = v:shell_error
+"             endif
+"             if g:iswindows
+"                 if s:LastShellReturn_C != 0
+"                     exe ":bo cope"
+"                     echohl WarningMsg | echo " compilation failed"
+"                 else
+"                     if s:ShowWarning
+"                         exe ":bo cw"
+"                     endif
+"                     echohl WarningMsg | echo " compilation successful"
+"                 endif
+"             else
+"                 if empty(v:statusmsg)
+"                     echohl WarningMsg | echo " compilation successful"
+"                 else
+"                     exe ":bo cope"
+"                 endif
+"             endif
+"         else
+"             echohl WarningMsg | echo ""class_Name"is up to date"
+"         endif
+"     else
+"         let s:Sou_Error = 1
+"         echohl WarningMsg | echo " please choose the correct source file"
+"     endif
+"     exe ":setlocal makeprg=make"
+" endfunc
+" 
+" func! Link()
+"     call Compile()
+"     if s:Sou_Error || s:LastShellReturn_C != 0
+"         return
+"     endif
+"     if expand("%:e") == "c" || expand("%:e") == "cpp" || expand("%:e") == "cxx"
+"         let s:LastShellReturn_L = 0
+"         let Sou = expand("%:p")
+"         let Obj = expand("%:p:r").s:Obj_Extension
+"         if g:iswindows
+"             let Exe = expand("%:p:r").s:Exe_Extension
+"             let Exe_Name = expand("%:p:t:r").s:Exe_Extension
+"         else
+"             let Exe = expand("%:p:r")
+"             let Exe_Name = expand("%:p:t:r")
+"         endif
+"         let v:statusmsg = ''
+"         if filereadable(Obj) && (getftime(Obj) >= getftime(Sou))
+"             redraw!
+"             if !executable(Exe) || (executable(Exe) && getftime(Exe) < getftime(Obj))
+"                 if expand("%:e") == "c"
+"                     setlocal makeprg=gcc\ -o\ %<\ %<.o
+"                     echohl WarningMsg | echo " linking..."
+"                     silent make
+"                 elseif expand("%:e") == "cpp" || expand("%:e") == "cxx"
+"                     setlocal makeprg=g++\ -o\ %<\ %<.o
+"                     echohl WarningMsg | echo " linking..."
+"                     silent make
+"                 endif
+"                 redraw!
+"                 if v:shell_error != 0
+"                     let s:LastShellReturn_L = v:shell_error
+"                 endif
+"                 if g:iswindows
+"                     if s:LastShellReturn_L != 0
+"                         exe ":bo cope"
+"                         echohl WarningMsg | echo " linking failed"
+"                     else
+"                         if s:ShowWarning
+"                             exe ":bo cw"
+"                         endif
+"                         echohl WarningMsg | echo " linking successful"
+"                     endif
+"                 else
+"                     if empty(v:statusmsg)
+"                         echohl WarningMsg | echo " linking successful"
+"                     else
+"                         exe ":bo cope"
+"                     endif
+"                 endif
+"             else
+"                 echohl WarningMsg | echo ""Exe_Name"is up to date"
+"             endif
+"         endif
+"         setlocal makeprg=make
+"     elseif expand("%:e") == "java"
+"         return
+"     endif
+" endfunc
+" 
+" func! Run()
+"     let s:ShowWarning = 0
+"     call Link()
+"     let s:ShowWarning = 1
+"     if s:Sou_Error || s:LastShellReturn_C != 0 || s:LastShellReturn_L != 0
+"         return
+"     endif
+"     let Sou = expand("%:p")
+"     if expand("%:e") == "c" || expand("%:e") == "cpp" || expand("%:e") == "cxx"
+"         let Obj = expand("%:p:r").s:Obj_Extension
+"         if g:iswindows
+"             let Exe = expand("%:p:r").s:Exe_Extension
+"         else
+"             let Exe = expand("%:p:r")
+"         endif
+"         if executable(Exe) && getftime(Exe) >= getftime(Obj) && getftime(Obj) >= getftime(Sou)
+"             redraw!
+"             echohl WarningMsg | echo " running..."
+"             if g:iswindows
+"                 exe ":!%<.exe"
+"             else
+"                 if g:isGUI
+"                     exe ":!gnome-terminal -x bash -c './%<; echo; echo 请按 Enter 键继续; read'"
+"                 else
+"                     exe ":!clear; ./%<"
+"                 endif
+"             endif
+"             redraw!
+"             echohl WarningMsg | echo " running finish"
+"         endif
+"     elseif expand("%:e") == "java"
+"         let class = expand("%:p:r").s:Class_Extension
+"         if getftime(class) >= getftime(Sou)
+"             redraw!
+"             echohl WarningMsg | echo " running..."
+"             if g:iswindows
+"                 exe ":!java %<"
+"             else
+"                 if g:isGUI
+"                     exe ":!gnome-terminal -x bash -c 'java %<; echo; echo 请按 Enter 键继续; read'"
+"                 else
+"                     exe ":!clear; java %<"
+"                 endif
+"             endif
+"             redraw!
+"             echohl WarningMsg | echo " running finish"
+"         endif
+"     endif
+" endfunc
+" 
+" " -----------------------------------------------------------------------------
+" " 在浏览器中预览 Html 或 PHP 文件
+" " -----------------------------------------------------------------------------
+" " F5 加浏览器名称缩写调用浏览器预览，启用前先确定有安装相应浏览器，并在下面的配置好其安装目录
+" if g:iswindows
+"     "以下为只支持Windows系统的浏览器
+" 
+"     " 调用系统IE浏览器预览，如果已卸载可将其注释
+"     nmap <F5>ie :call ViewInBrowser("ie")<cr>
+"     imap <F5>ie <ESC>:call ViewInBrowser("ie")<cr>
+" 
+"     " 调用IETester(IE测试工具)预览，如果有安装可取消注释
+"     " nmap <F5>ie6 :call ViewInBrowser("ie6")<cr>
+"     " imap <F5>ie6 <ESC>:call ViewInBrowser("ie6")<cr>
+"     " nmap <F5>ie7 :call ViewInBrowser("ie7")<cr>
+"     " imap <F5>ie7 <ESC>:call ViewInBrowser("ie7")<cr>
+"     " nmap <F5>ie8 :call ViewInBrowser("ie8")<cr>
+"     " imap <F5>ie8 <ESC>:call ViewInBrowser("ie8")<cr>
+"     " nmap <F5>ie9 :call ViewInBrowser("ie9")<cr>
+"     " imap <F5>ie9 <ESC>:call ViewInBrowser("ie9")<cr>
+"     " nmap <F5>ie10 :call ViewInBrowser("ie10")<cr>
+"     " imap <F5>ie10 <ESC>:call ViewInBrowser("ie10")<cr>
+"     " nmap <F5>iea :call ViewInBrowser("iea")<cr>
+"     " imap <F5>iea <ESC>:call ViewInBrowser("iea")<cr>
+" elseif g:islinux
+"     "以下为只支持Linux系统的浏览器
+"     "暂未配置，待有时间再弄了
+" endif
+" 
+" "以下为支持Windows与Linux系统的浏览器
+" 
+" " 调用Firefox浏览器预览，如果有安装可取消注释
+" " nmap <F5>ff :call ViewInBrowser("ff")<cr>
+" " imap <F5>ff <ESC>:call ViewInBrowser("ff")<cr>
+" 
+" " 调用Maxthon(遨游)浏览器预览，如果有安装可取消注释
+" " nmap <F5>ay :call ViewInBrowser("ay")<cr>
+" " imap <F5>ay <ESC>:call ViewInBrowser("ay")<cr>
+" 
+" " 调用Opera浏览器预览，如果有安装可取消注释
+" " nmap <F5>op :call ViewInBrowser("op")<cr>
+" " imap <F5>op <ESC>:call ViewInBrowser("op")<cr>
+" 
+" " 调用Chrome浏览器预览，如果有安装可取消注释
+" " nmap <F5>cr :call ViewInBrowser("cr")<cr>
+" " imap <F5>cr <ESC>:call ViewInBrowser("cr")<cr>
+" 
+" " 浏览器调用函数
+" function! ViewInBrowser(name)
+"     if expand("%:e") == "php" || expand("%:e") == "html"
+"         exe ":update"
+"         if g:iswindows
+"             "获取要预览的文件路径，并将路径中的'\'替换为'/'，同时将路径文字的编码转换为gbk（同cp936）
+"             let file = iconv(substitute(expand("%:p"), '\', '/', "g"), "utf-8", "gbk")
+" 
+"             "浏览器路径设置，路径中使用'/'斜杠，更改路径请更改双引号里的内容
+"             "下面只启用了系统IE浏览器，如需启用其它的可将其取消注释（得先安装，并配置好安装路径），也可按需增减
+"             let SystemIE = "C:/progra~1/intern~1/iexplore.exe"  "系统自带IE目录
+"             " let IETester = "F:/IETester/IETester.exe"           "IETester程序目录（可按实际更改）
+"             " let Chrome = "F:/Chrome/Chrome.exe"                 "Chrome程序目录（可按实际更改）
+"             " let Firefox = "F:/Firefox/Firefox.exe"              "Firefox程序目录（可按实际更改）
+"             " let Opera = "F:/Opera/opera.exe"                    "Opera程序目录（可按实际更改）
+"             " let Maxthon = "C:/Progra~2/Maxthon/Bin/Maxthon.exe" "Maxthon程序目录（可按实际更改）
+" 
+"             "本地虚拟服务器设置，我测试的是phpStudy2014，可根据自己的修改，更改路径请更改双引号里的内容
+"             let htdocs ="F:/phpStudy2014/WWW/"                  "虚拟服务器地址或目录（可按实际更改）
+"             let url = "localhost"                               "虚拟服务器网址（可按实际更改）
+"         elseif g:islinux
+"             "暂时还没有配置，有时间再弄了。
+"         endif
+" 
+"         "浏览器调用缩写，可根据实际增减，注意，上面浏览器路径中没有定义过的变量（等号右边为变量）不能出现在下面哟（可将其注释或删除）
+"         let l:browsers = {}                             "定义缩写字典变量，此行不能删除或注释
+"         " let l:browsers["cr"] = Chrome                   "Chrome浏览器缩写
+"         " let l:browsers["ff"] = Firefox                  "Firefox浏览器缩写
+"         " let l:browsers["op"] = Opera                    "Opera浏览器缩写
+"         " let l:browsers["ay"] = Maxthon                  "遨游浏览器缩写
+"         let l:browsers["ie"] = SystemIE                 "系统IE浏览器缩写
+"         " let l:browsers["ie6"] = IETester."-ie6"         "调用IETESTER工具以IE6预览缩写（变量加参数）
+"         " let l:browsers["ie7"] = IETester."-ie7"         "调用IETESTER工具以IE7预览缩写（变量加参数）
+"         " let l:browsers["ie8"] = IETester."-ie8"         "调用IETESTER工具以IE8预览缩写（变量加参数）
+"         " let l:browsers["ie9"] = IETester."-ie9"         "调用IETESTER工具以IE9预览缩写（变量加参数）
+"         " let l:browsers["ie10"] = IETester."-ie10"       "调用IETESTER工具以IE10预览缩写（变量加参数）
+"         " let l:browsers["iea"] = IETester."-al"          "调用IETESTER工具以支持的所有IE版本预览缩写（变量加参数）
+" 
+"         if stridx(file, htdocs) == -1   "文件不在本地虚拟服务器目录，则直接预览（但不能解析PHP文件）
+"            exec ":silent !start ". l:browsers[a:name] ." file://" . file
+"         else    "文件在本地虚拟服务器目录，则调用本地虚拟服务器解析预览（先启动本地虚拟服务器）
+"             let file = substitute(file, htdocs, "http://".url."/", "g")    "转换文件路径为虚拟服务器网址路径
+"             exec ":silent !start ". l:browsers[a:name] file
+"         endif
+"     else
+"         echohl WarningMsg | echo " please choose the correct source file"
+"     endif
+" endfunction
 
 " -----------------------------------------------------------------------------
 " 其它配置
@@ -594,6 +603,7 @@ set nobackup                                "设置无备份文件
 
 " -----------------------------------------------------------------------------
 " auto-pairs 插件配
+" git://github.com/jiangmiao/auto-pairs.git
 " -----------------------------------------------------------------------------
 " 用于括号与引号自动补全，不过会与函数原型提示插件echofunc冲突
 " 所以我就没有加入echofunc插件
@@ -761,7 +771,8 @@ nnoremap <leader>g :bd <cr>
 " -----------------------------------------------------------------------------
 " 相对 TagList 能更好的支持面向对象
 " 常规模式下输入 tb 调用插件，如果有打开 TagList 窗口则先将其关闭
-nnoremap tb :TlistClose<CR>:TagbarToggle<CR>
+"nnoremap tb :TlistClose<CR>:TagbarToggle<CR>
+nnoremap tb :TagbarToggle<CR>
 let g:tagbar_width=30                       "设置窗口宽度
 " let g:tagbar_left=1                         "在左侧窗口中显示
 
@@ -795,31 +806,31 @@ let g:tagbar_width=30                       "设置窗口宽度
 " cscope 工具配置
 " -----------------------------------------------------------------------------
 " 用Cscope自己的话说 - 你可以把它当做是超过频的ctags"
-if has("cscope")
-    "设定可以使用 quickfix 窗口来查看 cscope 结果
-    set cscopequickfix=s-,c-,d-,i-,t-,e-
-    "使支持用 Ctrl+]  和 Ctrl+t 快捷键在代码间跳转
-    set cscopetag
-    "如果你想反向搜索顺序设置为1
-    set csto=0
-    "在当前目录中添加任何数据库
-    if filereadable("cscope.out")
-        cs add cscope.out
-    "否则添加数据库环境中所指出的
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
-    set cscopeverbose
-    "快捷键设置
-    nnoremap ss :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap sg :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap sc :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap st :cs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap se :cs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap sf :cs find f <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap si :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nnoremap sd :cs find d <C-R>=expand("<cword>")<CR><CR>
-endif
+" if has("cscope")
+"     "设定可以使用 quickfix 窗口来查看 cscope 结果
+"     set cscopequickfix=s-,c-,d-,i-,t-,e-
+"     "使支持用 Ctrl+]  和 Ctrl+t 快捷键在代码间跳转
+"     set cscopetag
+"     "如果你想反向搜索顺序设置为1
+"     set csto=0
+"     "在当前目录中添加任何数据库
+"     if filereadable("cscope.out")
+"         cs add cscope.out
+"     "否则添加数据库环境中所指出的
+"     elseif $CSCOPE_DB != ""
+"         cs add $CSCOPE_DB
+"     endif
+"     set cscopeverbose
+"     "快捷键设置
+"     nnoremap <leader>ss :cs find s <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>sg :cs find g <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>sc :cs find c <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>st :cs find t <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>se :cs find e <C-R>=expand("<cword>")<CR><CR>
+"     nnoremap <leader>sf :cs find f <C-R>=expand("<cfile>")<CR><CR>
+"     nnoremap <leader>si :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+"     nnoremap <leader>sd :cs find d <C-R>=expand("<cword>")<CR><CR>
+" endif
 
 " -----------------------------------------------------------------------------
 " ctags 工具配置
@@ -943,11 +954,14 @@ inoremap <leader>po :set nopaste <cr>
 " 快速进入命令模式
 nnoremap ; :
 " 盘符切换
-nnoremap <leader>jc :NERDTree c:\ <cr>
+nnoremap <leader>jc :NERDTree c:\\ <cr>
 nnoremap <leader>jd :NERDTree d:\\ <cr>
 nnoremap <leader>je :NERDTree e:\\ <cr>
 nnoremap <leader>jf :NERDTree f:\\ <cr>
 nnoremap <leader>jg :NERDTree g:\\ <cr>
+nnoremap <leader>jx :NERDTree x:\\ <cr>
+nnoremap <leader>jy :NERDTree y:\\ <cr>
+nnoremap <leader>jz :NERDTree z:\\ <cr>
 " 运行php代码
 nnoremap <leader>rp :!php % <cr>
 " 正常模式下 alt+j,k,h,l 调整分割窗口大小
@@ -982,10 +996,10 @@ inoremap <c-h> <Left>
 " Ctrl + L 插入模式下光标向右移动
 inoremap <c-l> <Right>
 " 切换到上下左右的窗口中
-noremap fk <c-w>k
-noremap fj <c-w>j
-noremap fh <c-w>h
-noremap fl <c-w>l
+nnoremap fk <c-w>k
+nnoremap fj <c-w>j
+nnoremap fh <c-w>h
+nnoremap fl <c-w>l
 " <c-u>删除光标至行首 <c-m>换行
 " 行首
 nnoremap <leader>a <home>
