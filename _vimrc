@@ -131,8 +131,8 @@ Bundle 'gmarik/vundle'
 " Bundle 'Align'
 Bundle 'jiangmiao/auto-pairs'
 " Bundle 'bufexplorer.zip'
-Bundle 'ccvext.vim'
-Bundle 'cSyntaxAfter'
+" Bundle 'ccvext.vim'
+" Bundle 'cSyntaxAfter'
 Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'mattn/emmet-vim'
 " Bundle 'Yggdroot/indentLine'
@@ -141,20 +141,26 @@ Bundle 'mattn/emmet-vim'
 Bundle 'Shougo/neocomplcache.vim'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
-Bundle 'OmniCppComplete'
+" Bundle 'OmniCppComplete'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'repeat.vim'
-Bundle 'msanders/snipmate.vim'
+" Bundle 'repeat.vim'
+" Bundle 'msanders/snipmate.vim'
 " Bundle 'wesleyche/SrcExpl'
 " Bundle 'std_c.zip'
 Bundle 'tpope/vim-surround'
 Bundle 'scrooloose/syntastic'
 Bundle 'majutsushi/tagbar'
-Bundle 'taglist.vim'
-Bundle 'TxtBrowser'
-Bundle 'ZoomWin'
+" Bundle 'taglist.vim'
+" Bundle 'TxtBrowser'
+" Bundle 'ZoomWin'
 Bundle 'Lokaltog/vim-easymotion'
 " Bundle 'iamcco/dict.vim'
+" 安装插件
+nnoremap <leader>bi :BundleInstall <cr>
+" 更新插件
+nnoremap <leader>bu :BundleUpdate <cr>
+" 卸载插件
+nnoremap <leader>bc :BundleClean <cr>
 
 " -----------------------------------------------------------------------------
 " 编码配置
@@ -587,7 +593,7 @@ set nobackup                                "设置无备份文件
 " 一个对齐的插件，用来——排版与对齐代码，功能强大，不过用到的机会不多
 
 " -----------------------------------------------------------------------------
-" auto-pairs 插件配 >
+" auto-pairs 插件配
 " -----------------------------------------------------------------------------
 " 用于括号与引号自动补全，不过会与函数原型提示插件echofunc冲突
 " 所以我就没有加入echofunc插件
@@ -614,7 +620,7 @@ set nobackup                                "设置无备份文件
 " cSyntaxAfter 插件配置
 " -----------------------------------------------------------------------------
 " 高亮括号与运算符等
-au! BufRead,BufNewFile,BufEnter *.{c,cpp,h,java,javascript} call CSyntaxAfter()
+" au! BufRead,BufNewFile,BufEnter *.{c,cpp,h,java,javascript} call CSyntaxAfter()
 
 " -----------------------------------------------------------------------------
 " ctrlp.vim 插件配置
@@ -637,13 +643,13 @@ au! BufRead,BufNewFile,BufEnter *.{c,cpp,h,java,javascript} call CSyntaxAfter()
 " nnoremap <leader>il :IndentLinesToggle<CR>
 
 " 设置Gvim的对齐线样式
-if g:isGUI
-    let g:indentLine_char = "┊"
-    let g:indentLine_first_char = "┊"
-endif
+" if g:isGUI
+    " let g:indentLine_char = "┊"
+    " let g:indentLine_first_char = "┊"
+" endif
 
 " 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
-let g:indentLine_color_term = 239
+" let g:indentLine_color_term = 239
 
 " 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
 " let g:indentLine_color_gui = '#A4E57E'
@@ -707,7 +713,7 @@ nnoremap <leader>g :bd <cr>
 " ctags -R --c++-kinds=+p --fields=+iaS --extra=+q
 " 我使用上面的参数生成标签后，对函数使用跳转时会出现多个选择
 " 所以我就将--c++-kinds=+p参数给去掉了，如果大侠有什么其它解决方法希望不要保留呀
-set completeopt=menu                        "关闭预览窗口
+" set completeopt=menu                        "关闭预览窗口
 
 " -----------------------------------------------------------------------------
 " powerline 插件配置
@@ -737,7 +743,7 @@ set completeopt=menu                        "关闭预览窗口
 " -----------------------------------------------------------------------------
 " 用于增强C语法高亮
 " 启用 // 注视风格
-let c_cpp_comments = 0
+" let c_cpp_comments = 0
 
 " -----------------------------------------------------------------------------
 " surround 插件配置
@@ -765,19 +771,19 @@ let g:tagbar_width=30                       "设置窗口宽度
 " 高效地浏览源码, 其功能就像vc中的workpace
 " 那里面列出了当前文件中的所有宏,全局变量, 函数名等
 " 常规模式下输入 tl 调用插件，如果有打开 Tagbar 窗口则先将其关闭
-nnoremap tl :TagbarClose<CR>:Tlist<CR>
-let Tlist_Show_One_File=1                   "只显示当前文件的tags
+" nnoremap tl :TagbarClose<CR>:Tlist<CR>
+" let Tlist_Show_One_File=1                   "只显示当前文件的tags
 " let Tlist_Enable_Fold_Column=0              "使taglist插件不显示左边的折叠行
-let Tlist_Exit_OnlyWindow=1                 "如果Taglist窗口是最后一个窗口则退出Vim
-let Tlist_File_Fold_Auto_Close=1            "自动折叠
-let Tlist_WinWidth=30                       "设置窗口宽度
-let Tlist_Use_Right_Window=1                "在右侧窗口中显示
+" let Tlist_Exit_OnlyWindow=1                 "如果Taglist窗口是最后一个窗口则退出Vim
+" let Tlist_File_Fold_Auto_Close=1            "自动折叠
+" let Tlist_WinWidth=30                       "设置窗口宽度
+" let Tlist_Use_Right_Window=1                "在右侧窗口中显示
 
 " -----------------------------------------------------------------------------
 " txtbrowser 插件配置
 " -----------------------------------------------------------------------------
 " 用于文本文件生成标签与与语法高亮（调用TagList插件生成标签，如果可以）
-au BufRead,BufNewFile *.txt setlocal ft=txt
+" au BufRead,BufNewFile *.txt setlocal ft=txt
 
 " -----------------------------------------------------------------------------
 " ZoomWin 插件配置
@@ -980,20 +986,26 @@ noremap fk <c-w>k
 noremap fj <c-w>j
 noremap fh <c-w>h
 noremap fl <c-w>l
-" 返回撤销
-noremap fu <c-r>
+" <c-u>删除光标至行首 <c-m>换行
 " 行首
-nnoremap <leader>a  0
-inoremap <leader>a  <esc>0i
+nnoremap <leader>a <home>
+inoremap <leader>a <home>
 " 行尾
-nnoremap <leader>n  <s-$>
-inoremap <leader>n  <esc><s-$>a
+nnoremap <leader>n <end>
+inoremap <leader>n <end>
+" 移动一个单词
+inoremap <m-l> <c-right>
+inoremap <m-h> <c-left>
+" 上一行插入内容
+inoremap <c-O> <esc>O
+" 下行插入内容
+inoremap <c-o> <esc>o
 " 删除光标前一个字符
-inoremap <leader>db <esc>xi
+inoremap <c-f> <bs>
 " 删除光标后一个字符
-inoremap <leader>df <esc>lxi
+inoremap <c-b> <del>
 " 删除光标后一个单词
-inoremap <leader>dw <esc>lcw
+inoremap <c-e> <esc>lcw
 " 删除光标后的所有字符到行尾
 inoremap <leader>da <esc>lC
 " 删除光标所在行所有字符
