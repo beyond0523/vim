@@ -121,52 +121,53 @@ if g:islinux
     call vundle#rc()
 else
     " 旧bundle方式
-    set rtp+=$VIM/vimfiles/bundle/vundle/
-    call vundle#rc('$VIM/vimfiles/bundle/')
+    " set rtp+=$VIM/vimfiles/bundle/vundle/
+    " call vundle#rc('$VIM/vimfiles/bundle/')
     " 新bundle方式
-    " set rtp+=$VIM/vimfiles/bundle/vundle
-    " call vundle#begin()
+    set rtp+=$VIM/vimfiles/bundle/vundle/
+    call vundle#begin('$VIM/vimfiles/bundle/')
 endif
 
 " 使用Vundle来管理插件，这个必须要有。新方式将bundle替换为plugin
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 " 安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
-" Bundle 'a.vim'
-" Bundle 'Align'
-Bundle 'jiangmiao/auto-pairs'
-" Bundle 'bufexplorer.zip'
-" Bundle 'ccvext.vim'
-" Bundle 'cSyntaxAfter'
-Bundle 'ctrlpvim/ctrlp.vim'
-Bundle 'mattn/emmet-vim'
-" Bundle 'Yggdroot/indentLine'
-" Bundle 'vim-javacompleteex'
-" Bundle 'Mark--Karkat'
-Bundle 'Shougo/neocomplcache.vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-" Bundle 'OmniCppComplete'
-Bundle 'Lokaltog/vim-powerline'
-" Bundle 'repeat.vim'
-" Bundle 'msanders/snipmate.vim'
-" Bundle 'wesleyche/SrcExpl'
-" Bundle 'std_c.zip'
-Bundle 'tpope/vim-surround'
-Bundle 'scrooloose/syntastic'
-Bundle 'majutsushi/tagbar'
-" Bundle 'taglist.vim'
-" Bundle 'TxtBrowser'
-" Bundle 'ZoomWin'
-Bundle 'Lokaltog/vim-easymotion'
-" Bundle 'iamcco/dict.vim'
+" Plugin 'a.vim'
+" Plugin 'Align'
+Plugin 'jiangmiao/auto-pairs'
+" Plugin 'bufexplorer.zip'
+" Plugin 'ccvext.vim'
+" Plugin 'cSyntaxAfter'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'mattn/emmet-vim'
+" Plugin 'Yggdroot/indentLine'
+" Plugin 'vim-javacompleteex'
+" Plugin 'Mark--Karkat'
+Plugin 'Shougo/neocomplcache.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+" Plugin 'OmniCppComplete'
+Plugin 'Lokaltog/vim-powerline'
+" Plugin 'repeat.vim'
+" Plugin 'msanders/snipmate.vim'
+" Plugin 'wesleyche/SrcExpl'
+" Plugin 'std_c.zip'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/syntastic'
+Plugin 'majutsushi/tagbar'
+" Plugin 'taglist.vim'
+" Plugin 'TxtBrowser'
+" Plugin 'ZoomWin'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'altercation/vim-colors-solarized'
+" Plugin 'iamcco/dict.vim'
 " 新方式
-" call vundle#end()
+call vundle#end()
 " 安装插件
-nnoremap <leader>bi :BundleInstall <cr>
+nnoremap <leader>bi :PluginInstall <cr>
 " 更新插件
-nnoremap <leader>bu :BundleUpdate <cr>
+nnoremap <leader>bu :PluginUpdate <cr>
 " 卸载插件
-nnoremap <leader>bc :BundleClean <cr>
+nnoremap <leader>bc :PluginClean <cr>
 
 " -----------------------------------------------------------------------------
 " 编码配置
@@ -227,7 +228,7 @@ endif
 
 " 设置代码配色方案
 if g:isGUI
-    colorscheme Tomorrow-Night-Bright                 "Gvim配色方案
+    colorscheme solarized                 "Gvim配色方案
 else
     colorscheme Tomorrow-Night-Eighties               "终端配色方案
 endif
