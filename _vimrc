@@ -112,7 +112,7 @@ let mapleader = ","
 " -----------------------------------------------------------------------------
 " 用于更方便的管理vim插件，具体用法参考 :help vundle
 " Vundle工具安装方法为在终端输入如下命令
-" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/vundle
 " 如果想在 windows 安装就必需先安装 "git for window"，可查阅网上资料
 " -----------------------------------------------------------------------------
 set nocompatible                                      "禁用 Vi 兼容模式
@@ -124,7 +124,7 @@ if g:islinux
     " call vundle#rc()
     " 新bundle方式
     set rtp+=~/.vim/bundle/vundle/
-    call vundle#begin('~/.vim/bundle/vundle/')
+    call vundle#begin('~/.vim/bundle/')
 else
     " 旧bundle方式
     " set rtp+=$VIM/vimfiles/bundle/vundle/
