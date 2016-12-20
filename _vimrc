@@ -3,7 +3,8 @@
 " Author    huangchaowei
 " Email     hcw0523beyond@163.com
 " Date      2016-12-18
-" Version   V1.0       
+" Version   V1.0
+" :h或者:help打开vim帮助手册，:h 插件名称打开对应插件的帮助手册
 " =============================================================================
 
 " -----------------------------------------------------------------------------
@@ -133,35 +134,54 @@ Plugin 'gmarik/vundle'
 " 安装或更新的插件，不同仓库都有（具体书写规范请参考帮助）
 " Plugin 'a.vim'
 " Plugin 'Align'
+" 括号自动补全
 Plugin 'jiangmiao/auto-pairs'
 " Plugin 'bufexplorer.zip'
 " Plugin 'ccvext.vim'
 " Plugin 'cSyntaxAfter'
+" 主要功能是对文件以及buffer进行模糊查询，快速打开文件。
 Plugin 'ctrlpvim/ctrlp.vim'
+" zendcoding 的升级插件，实现html和css代码的快速编写
 Plugin 'mattn/emmet-vim'
-" Plugin 'Yggdroot/indentLine'
+" 缩进提示线
+Plugin 'Yggdroot/indentLine'
 " Plugin 'vim-javacompleteex'
+" 变量的高亮
 " Plugin 'Mark--Karkat'
+" 主要功能是进行代码补全
 Plugin 'Shougo/neocomplcache.vim'
+" 主要功能是进行代码注释
 Plugin 'scrooloose/nerdcommenter'
+" 主要功能是一款文件浏览器，可以查看文件目录结构打开相应的文件。
 Plugin 'scrooloose/nerdtree'
 " Plugin 'OmniCppComplete'
-Plugin 'Lokaltog/vim-powerline'
+"  旧插件，已经用air-line替换
+" Plugin 'Lokaltog/vim-powerline'
+"  新插件，替换powerline
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'repeat.vim'
 " Plugin 'msanders/snipmate.vim'
 " Plugin 'wesleyche/SrcExpl'
 " Plugin 'std_c.zip'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/syntastic'
+" 变量查看器
 Plugin 'majutsushi/tagbar'
 " Plugin 'taglist.vim'
-" Plugin 'TxtBrowser'
+" 文本浏览，<leader>g打开链接地址，<leader>f翻译单词，<leader>s打开浏览器搜索
+Plugin 'TxtBrowser'
 " Plugin 'ZoomWin'
+" 快速跳转
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'altercation/vim-colors-solarized'
+" 在线词典
 " Plugin 'iamcco/dict.vim'
+" 多行选择
+Plugin 'terryma/vim-multiple-cursors'
 " 新方式
 call vundle#end()
+
 " 安装插件
 nnoremap <leader>bi :PluginInstall <cr>
 " 更新插件
@@ -258,7 +278,7 @@ endif
 " 编译、连接、运行配置 (目前只配置了C、C++、Java语言)
 " -----------------------------------------------------------------------------
 " F9 一键保存、编译、连接存并运行
-nnoremap <F9> :call Run()<CR>
+" nnoremap <F9> :call Run()<CR>
 " inoremap <F9> <ESC>:call Run()<CR>
 " " Ctrl + F9 一键保存并编译
 " nnoremap <c-F9> :call Compile()<CR>
@@ -266,7 +286,6 @@ nnoremap <F9> :call Run()<CR>
 " " Ctrl + F10 一键保存并连接
 " nnoremap <c-F10> :call Link()<CR>
 " inoremap <c-F10> <ESC>:call Link()<CR>
-" 
 " let s:LastShellReturn_C = 0
 " let s:LastShellReturn_L = 0
 " let s:ShowWarning = 1
@@ -274,15 +293,11 @@ nnoremap <F9> :call Run()<CR>
 " let s:Exe_Extension = '.exe'
 " let s:Class_Extension = '.class'
 " let s:Sou_Error = 0
-" 
 " let s:windows_CFlags = 'gcc\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
 " let s:linux_CFlags = 'gcc\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-" 
 " let s:windows_CPPFlags = 'g++\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
 " let s:linux_CPPFlags = 'g++\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
-" 
 " let s:JavaFlags = 'javac\ %'
-" 
 " func! Compile()
 "     exe ":ccl"
 "     exe ":update"
@@ -635,6 +650,7 @@ set nobackup                                "设置无备份文件
 
 " -----------------------------------------------------------------------------
 " ctrlp.vim 插件配置
+" https://github.com/kien/ctrlp.vim
 " -----------------------------------------------------------------------------
 " 一个全路径模糊文件，缓冲区，最近最多使用，... 检索插件；详细帮助见 :h ctrlp
 " 常规模式下输入：Ctrl + p 调用插件
@@ -644,25 +660,28 @@ set nobackup                                "设置无备份文件
 " emmet-vim（前身为Zen coding） 插件配置
 " https://github.com/mattn/emmet-vim
 " -----------------------------------------------------------------------------
-" HTML/CSS代码快速编写神器，详细帮助见 :h emmet
+" HTML/CSS代码快速编写神器，默认为<c-y>,详细帮助见 :h emmet.txt
+" let g:user_emmet_leader_key='<tab>' 
+
 " -----------------------------------------------------------------------------
 " indentLine 插件配置
+" https://github.com/Yggdroot/indentLine
 " -----------------------------------------------------------------------------
 " 用于显示对齐线，与 indent_guides 在显示方式上不同，根据自己喜好选择了
 " 在终端上会有屏幕刷新的问题，这个问题能解决有更好了
 " 开启/关闭对齐线
-" nnoremap <leader>il :IndentLinesToggle<CR>
-
+" 关闭
+" let g:indentLine_enabled = 0
+nnoremap <leader>il :IndentLinesToggle<CR>
 " 设置Gvim的对齐线样式
-" if g:isGUI
-    " let g:indentLine_char = "┊"
-    " let g:indentLine_first_char = "┊"
-" endif
-
-" 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
+if g:isGUI
+    let g:indentLine_char = "┊"
+    let g:indentLine_first_char = "|"
+endif
+" 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色vim
 " let g:indentLine_color_term = 239
 
-" 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
+" 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色gvim
 " let g:indentLine_color_gui = '#A4E57E'
 
 " -----------------------------------------------------------------------------
@@ -687,6 +706,7 @@ set nobackup                                "设置无备份文件
 
 " -----------------------------------------------------------------------------
 " neocomplcache 插件配置
+" https://github.com/Shougo/neocomplcache.vim
 " -----------------------------------------------------------------------------
 " 关键字补全、文件路径补全、tag补全等等，各种，非常好用，速度超快。
 let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
@@ -695,6 +715,7 @@ let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
 
 " -----------------------------------------------------------------------------
 " nerdcommenter 插件配置
+" https://github.com/scrooloose/nerdcommenter
 " -----------------------------------------------------------------------------
 " 我主要用于C/C++代码注释(其它的也行)
 " 以下为插件默认快捷键，其中的说明是以C/C++为例的，其它语言类似
@@ -708,12 +729,13 @@ let NERDSpaceDelims = 1                     "在左注释符之后，右注释�
 
 " -----------------------------------------------------------------------------
 " nerdtree 插件配置
+" https://github.com/scrooloose/nerdtree
 " -----------------------------------------------------------------------------
 " 有目录村结构的文件浏览插件
 " 常规模式下调用插件
 nnoremap to :NERDTreeToggle<cr>
-" 关闭窗口
-nnoremap <leader>g :bd <cr>
+" 关闭窗口 和txtbrowser插件映射键位冲突
+" nnoremap <leader>g :bd <cr>
 
 " -----------------------------------------------------------------------------
 " omnicppcomplete 插件配置
@@ -730,6 +752,20 @@ nnoremap <leader>g :bd <cr>
 " powerline 插件配置
 " -----------------------------------------------------------------------------
 " 状态栏插件，更好的状态栏效果
+
+" -----------------------------------------------------------------------------
+" air-line 插件配置
+" https://github.com/vim-airline/vim-airline
+" -----------------------------------------------------------------------------
+" 状态栏插件，更好的状态栏效果
+" let g:airline_symbols='fancy'       " 需要vimpython支持
+" let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_section_y = '%{strftime("%Y-%m-%d %H:%M")}'
+let g:airline_theme='powerlineish'
+" set listchars=tab:•\ ,trail:•,extends:»,precedes:« " Unprintable chars mapping
 
 " -----------------------------------------------------------------------------
 " repeat 插件配置
@@ -758,17 +794,20 @@ nnoremap <leader>g :bd <cr>
 
 " -----------------------------------------------------------------------------
 " surround 插件配置
+" https://github.com/tpope/vim-surround
 " -----------------------------------------------------------------------------
 " 快速给单词/句子两边增加符号（包括html标签），缺点是不能用"."来重复命令
 " 不过 repeat 插件可以解决这个问题，详细帮助见 :h surround.txt
 
 " -----------------------------------------------------------------------------
 " Syntastic 插件配置
+" https://github.com/vim-syntastic/syntastic
 " -----------------------------------------------------------------------------
 " 用于保存文件时查检语法
 
 " -----------------------------------------------------------------------------
 " Tagbar 插件配置
+" http://www.vim.org/scripts/script.php?script_id=2627
 " -----------------------------------------------------------------------------
 " 相对 TagList 能更好的支持面向对象
 " 常规模式下输入 tb 调用插件，如果有打开 TagList 窗口则先将其关闭
@@ -779,6 +818,7 @@ let g:tagbar_width=30                       "设置窗口宽度
 
 " -----------------------------------------------------------------------------
 " TagList 插件配置
+" http://www.vim.org/scripts/script.php?script_id=273
 " -----------------------------------------------------------------------------
 " 高效地浏览源码, 其功能就像vc中的workpace
 " 那里面列出了当前文件中的所有宏,全局变量, 函数名等
@@ -793,9 +833,10 @@ let g:tagbar_width=30                       "设置窗口宽度
 
 " -----------------------------------------------------------------------------
 " txtbrowser 插件配置
+" https://github.com/vim-scripts/TxtBrowser
 " -----------------------------------------------------------------------------
 " 用于文本文件生成标签与与语法高亮（调用TagList插件生成标签，如果可以）
-" au BufRead,BufNewFile *.txt setlocal ft=txt
+au BufRead,BufNewFile *.txt setlocal ft=txt
 
 " -----------------------------------------------------------------------------
 " ZoomWin 插件配置
@@ -837,10 +878,10 @@ let g:tagbar_width=30                       "设置窗口宽度
 " ctags 工具配置
 " -----------------------------------------------------------------------------
 " 对浏览代码非常的方便,可以在函数,变量之间跳转等
-set tags=./tags;                            "向上级目录递归查找tags文件（好像只有在Windows下才有用）
+" set tags=./tags;                            "向上级目录递归查找tags文件（好像只有在Windows下才有用）
 
 " -----------------------------------------------------------------------------
-" gvimfullscreen 工具配置 请确保已安装了工具
+" gvimfullscreen 工具配置 请确保已安装了工具 gvimfullscreen.dll 存放在vim80目录中
 " -----------------------------------------------------------------------------
 " 用于 Windows Gvim 全屏窗口，可用 F11 切换
 " 全屏后再隐藏菜单栏、工具栏、滚动条效果更好
@@ -849,7 +890,7 @@ if (g:iswindows && g:isGUI)
 endif
 
 " -----------------------------------------------------------------------------
-" vimtweak 工具配置 请确保以已装了工具
+" vimtweak 工具配置 请确保以已装了工具 vimtweak.dll 存放在vim80目录中
 " -----------------------------------------------------------------------------
 " 这里只用于窗口透明与置顶
 " 常规模式下 Ctrl + Up（上方向键） 增加不透明度，Ctrl + Down（下方向键） 减少不透明度，<Leader>t 窗口置顶与否切换
@@ -911,6 +952,7 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 
 " =============================================================================
 " easymotion快速跳转
+" https://github.com/easymotion/vim-easymotion
 " =============================================================================
 "let g:EasyMotion_leader_key = '<leader>'
 "nnoremap <leader><leader>h <Plug>(easymotion-linebackward)
@@ -923,8 +965,8 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 
 " =============================================================================
 " dict 翻译插件
-" =============================================================================
 " https://github.com/iamcco/dict.vim/
+" =============================================================================
 " 普通模式下，<Leader>d 即可翻译光标下的文本，并在命令行回显
 "nnoremap <leader>ds <Plug>DictSearch
 " 可视化模式下，<Leader>d 即可翻译选中的文本，并在命令行回显
