@@ -5,6 +5,7 @@
 " Date      2016-12-18
 " Version   V1.0
 " :h或者:help打开vim帮助手册，:h 插件名称打开对应插件的帮助手册
+" <c-]>或者K跳转到下一个文件，<c-o>返回上一个文件
 " =============================================================================
 
 " -----------------------------------------------------------------------------
@@ -118,8 +119,12 @@ set nocompatible                                      "禁用 Vi 兼容模式
 filetype off                                          "禁用文件类型侦测
 
 if g:islinux
+    " 旧bundle方式
+    " set rtp+=~/.vim/bundle/vundle/
+    " call vundle#rc()
+    " 新bundle方式
     set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
+    call vundle#begin('~/.vim/bundle/vundle/')
 else
     " 旧bundle方式
     " set rtp+=$VIM/vimfiles/bundle/vundle/
@@ -680,7 +685,6 @@ if g:isGUI
 endif
 " 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色vim
 " let g:indentLine_color_term = 239
-
 " 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色gvim
 " let g:indentLine_color_gui = '#A4E57E'
 
@@ -975,6 +979,12 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 "nnoremap <silent> <Plug>DictWSearch
 " 可视化模式下，<Leader>w 即可翻译选中的文本，并且在Dict新窗口显示
 "vnoremap <silent> <Plug>DictWVSearch
+
+" =============================================================================
+" mutiple-cursor
+" https://github.com/terryma/vim-multiple-cursors
+" =============================================================================
+" 多行选择
 
 " =============================================================================
 " 键盘映射
