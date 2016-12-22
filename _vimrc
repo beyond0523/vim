@@ -613,6 +613,8 @@ set writebackup                             "保存文件前建立备份，保�
 set nobackup                                "设置无备份文件
 set noswapfile                              "设置无临时文件
 set noundofile                              " 不保存零时文件
+" 自动切换目录为当前编辑文件所在目录
+au BufRead,BufNewFile,BufEnter * cd %:p:h
 " set vb t_vb=                                "关闭提示音
 
 " -----------------------------------------------------------------------------
@@ -636,6 +638,7 @@ set noundofile                              " 不保存零时文件
 " -----------------------------------------------------------------------------
 " auto-pairs 插件配
 " git://github.com/jiangmiao/auto-pairs.git
+" 可以屏蔽掉该插件的<c-h>功能
 " -----------------------------------------------------------------------------
 " 用于括号与引号自动补全，不过会与函数原型提示插件echofunc冲突
 " 所以我就没有加入echofunc插件
@@ -779,7 +782,7 @@ nnoremap to :NERDTreeToggle<cr>
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_section_y = '%{strftime("%Y-%m-%d %H:%M")}'
+let g:airline_section_y = '%{strftime("%Y-%m-%d %H:%M %A")}'
 let g:airline_theme='powerlineish'
 " set listchars=tab:•\ ,trail:•,extends:»,precedes:« " Unprintable chars mapping
 
@@ -946,8 +949,6 @@ if (g:iswindows && g:isGUI)
     nnoremap <leader>t :call Top_window()<CR>
 endif
 
-" 自动切换目录为当前编辑文件所在目录
-au BufRead,BufNewFile,BufEnter * cd %:p:h
 
 " =============================================================================
 " windows 下解决 Quickfix 乱码问题
