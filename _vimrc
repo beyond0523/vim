@@ -155,6 +155,8 @@ Plugin 'Yggdroot/indentLine'
 " Plugin 'Mark--Karkat'
 " 主要功能是进行代码补全
 Plugin 'Shougo/neocomplcache.vim'
+" 使用YouCompleteMe代替neocomplcache，需要python支持，通过:echo has("python")判断是否支持，返回1代表支持
+" Plugin 'Valloric/YouCompleteMe'
 " 主要功能是进行代码注释
 Plugin 'scrooloose/nerdcommenter'
 " 主要功能是一款文件浏览器，可以查看文件目录结构打开相应的文件。
@@ -246,7 +248,7 @@ set cursorline                                        "突出显示当前行
 set nowrap                                            "设置不自动换行
 set shortmess=atI                                     "去掉欢迎界面
 " set conceallevel=0                                    " 隐藏字符原样显示
-" 隐藏字符原样显示 
+" 隐藏字符原样显示
 nnoremap <leader>hh :set conceallevel=0 <cr>
 
 " 设置 gVim 窗口初始位置及大小
@@ -399,7 +401,7 @@ endif
 "     endif
 "     exe ":setlocal makeprg=make"
 " endfunc
-" 
+"
 " func! Link()
 "     call Compile()
 "     if s:Sou_Error || s:LastShellReturn_C != 0
@@ -459,7 +461,7 @@ endif
 "         return
 "     endif
 " endfunc
-" 
+"
 " func! Run()
 "     let s:ShowWarning = 0
 "     call Link()
@@ -509,18 +511,18 @@ endif
 "         endif
 "     endif
 " endfunc
-" 
+"
 " " -----------------------------------------------------------------------------
 " " 在浏览器中预览 Html 或 PHP 文件
 " " -----------------------------------------------------------------------------
 " " F5 加浏览器名称缩写调用浏览器预览，启用前先确定有安装相应浏览器，并在下面的配置好其安装目录
 " if g:iswindows
 "     "以下为只支持Windows系统的浏览器
-" 
+"
 "     " 调用系统IE浏览器预览，如果已卸载可将其注释
 "     nmap <F5>ie :call ViewInBrowser("ie")<cr>
 "     imap <F5>ie <ESC>:call ViewInBrowser("ie")<cr>
-" 
+"
 "     " 调用IETester(IE测试工具)预览，如果有安装可取消注释
 "     " nmap <F5>ie6 :call ViewInBrowser("ie6")<cr>
 "     " imap <F5>ie6 <ESC>:call ViewInBrowser("ie6")<cr>
@@ -538,25 +540,21 @@ endif
 "     "以下为只支持Linux系统的浏览器
 "     "暂未配置，待有时间再弄了
 " endif
-" 
+"
 " "以下为支持Windows与Linux系统的浏览器
-" 
 " " 调用Firefox浏览器预览，如果有安装可取消注释
 " " nmap <F5>ff :call ViewInBrowser("ff")<cr>
 " " imap <F5>ff <ESC>:call ViewInBrowser("ff")<cr>
-" 
 " " 调用Maxthon(遨游)浏览器预览，如果有安装可取消注释
 " " nmap <F5>ay :call ViewInBrowser("ay")<cr>
 " " imap <F5>ay <ESC>:call ViewInBrowser("ay")<cr>
-" 
 " " 调用Opera浏览器预览，如果有安装可取消注释
 " " nmap <F5>op :call ViewInBrowser("op")<cr>
 " " imap <F5>op <ESC>:call ViewInBrowser("op")<cr>
-" 
 " " 调用Chrome浏览器预览，如果有安装可取消注释
 " " nmap <F5>cr :call ViewInBrowser("cr")<cr>
 " " imap <F5>cr <ESC>:call ViewInBrowser("cr")<cr>
-" 
+"
 " " 浏览器调用函数
 " function! ViewInBrowser(name)
 "     if expand("%:e") == "php" || expand("%:e") == "html"
@@ -564,7 +562,7 @@ endif
 "         if g:iswindows
 "             "获取要预览的文件路径，并将路径中的'\'替换为'/'，同时将路径文字的编码转换为gbk（同cp936）
 "             let file = iconv(substitute(expand("%:p"), '\', '/', "g"), "utf-8", "gbk")
-" 
+"
 "             "浏览器路径设置，路径中使用'/'斜杠，更改路径请更改双引号里的内容
 "             "下面只启用了系统IE浏览器，如需启用其它的可将其取消注释（得先安装，并配置好安装路径），也可按需增减
 "             let SystemIE = "C:/progra~1/intern~1/iexplore.exe"  "系统自带IE目录
@@ -573,14 +571,14 @@ endif
 "             " let Firefox = "F:/Firefox/Firefox.exe"              "Firefox程序目录（可按实际更改）
 "             " let Opera = "F:/Opera/opera.exe"                    "Opera程序目录（可按实际更改）
 "             " let Maxthon = "C:/Progra~2/Maxthon/Bin/Maxthon.exe" "Maxthon程序目录（可按实际更改）
-" 
+"
 "             "本地虚拟服务器设置，我测试的是phpStudy2014，可根据自己的修改，更改路径请更改双引号里的内容
 "             let htdocs ="F:/phpStudy2014/WWW/"                  "虚拟服务器地址或目录（可按实际更改）
 "             let url = "localhost"                               "虚拟服务器网址（可按实际更改）
 "         elseif g:islinux
 "             "暂时还没有配置，有时间再弄了。
 "         endif
-" 
+"
 "         "浏览器调用缩写，可根据实际增减，注意，上面浏览器路径中没有定义过的变量（等号右边为变量）不能出现在下面哟（可将其注释或删除）
 "         let l:browsers = {}                             "定义缩写字典变量，此行不能删除或注释
 "         " let l:browsers["cr"] = Chrome                   "Chrome浏览器缩写
@@ -594,7 +592,7 @@ endif
 "         " let l:browsers["ie9"] = IETester."-ie9"         "调用IETESTER工具以IE9预览缩写（变量加参数）
 "         " let l:browsers["ie10"] = IETester."-ie10"       "调用IETESTER工具以IE10预览缩写（变量加参数）
 "         " let l:browsers["iea"] = IETester."-al"          "调用IETESTER工具以支持的所有IE版本预览缩写（变量加参数）
-" 
+"
 "         if stridx(file, htdocs) == -1   "文件不在本地虚拟服务器目录，则直接预览（但不能解析PHP文件）
 "            exec ":silent !start ". l:browsers[a:name] ." file://" . file
 "         else    "文件在本地虚拟服务器目录，则调用本地虚拟服务器解析预览（先启动本地虚拟服务器）
@@ -613,9 +611,9 @@ set writebackup                             "保存文件前建立备份，保�
 set nobackup                                "设置无备份文件
 set noswapfile                              "设置无临时文件
 set noundofile                              " 不保存零时文件
+" set vb t_vb=                                "关闭提示音
 " 自动切换目录为当前编辑文件所在目录
 au BufRead,BufNewFile,BufEnter * cd %:p:h
-" set vb t_vb=                                "关闭提示音
 
 " -----------------------------------------------------------------------------
 " a.vim 插件配置
@@ -638,7 +636,6 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 " -----------------------------------------------------------------------------
 " auto-pairs 插件配
 " git://github.com/jiangmiao/auto-pairs.git
-" 可以屏蔽掉该插件的<c-h>功能
 " -----------------------------------------------------------------------------
 " 用于括号与引号自动补全，不过会与函数原型提示插件echofunc冲突
 " 所以我就没有加入echofunc插件
@@ -680,7 +677,7 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 " https://github.com/mattn/emmet-vim
 " -----------------------------------------------------------------------------
 " HTML/CSS代码快速编写神器，默认为<c-y>,详细帮助见 :h emmet.txt
-" let g:user_emmet_leader_key='<tab>' 
+" let g:user_emmet_leader_key='<tab>'
 
 " -----------------------------------------------------------------------------
 " indentLine 插件配置
@@ -949,7 +946,6 @@ if (g:iswindows && g:isGUI)
     nnoremap <leader>t :call Top_window()<CR>
 endif
 
-
 " =============================================================================
 " windows 下解决 Quickfix 乱码问题
 " =============================================================================
@@ -1002,6 +998,32 @@ endif
 " =============================================================================
 " 多行选择
 
+
+" 创建文件时，检测文件类型，并增加注释，可关闭影响性能
+autocmd BufNewFile *.sh,*.py,*.html,*.java,*.php exec ":call s:insertHead()"
+" 定义函数insertHead，自动插入文件头
+function s:insertHead()
+    if expand("%:e") == 'sh'
+        call s:shellFile()
+    endif
+endfunction
+
+" shell 脚本
+function s:shellFile()
+     call setline(1, "#===============================================================")
+     call setline(2, "# Copyright (C) ".strftime("%Y")." All rights reserved.")
+     call setline(3, "# FileName:   ".expand("%"))
+     call setline(4, "# Description: ")
+     call setline(5, "# Author:     huangchaowei")
+     call setline(6, "# Email:      huangchaowei@zbj.com")
+     call setline(7, "# Date:       ".strftime("%Y-%m-%d %H:%M:%S"))
+     call setline(8, "# Version:    v1.0")
+     call setline(9, "# Modify:    ")
+     call setline(10, "#===============================================================")
+     call setline(11,"# The enviroment of the bash ")
+     call setline(12,"#!/bin/bash")
+ endfunction
+
 " =============================================================================
 " 键盘映射
 " =============================================================================
@@ -1010,9 +1032,8 @@ nnoremap w :w <cr>
 " 退出
 nnoremap q :q! <cr>
 " 返回普通模式
-inoremap <leader>e <esc>
-cnoremap <leader>e <esc>
-vnoremap <leader>e <esc>
+noremap! <leader>e <esc>
+noremap <leader>e <esc>
 snoremap <leader>e <esc>
 " 粘贴模式
 nnoremap <leader>p :set paste <cr>
@@ -1065,6 +1086,12 @@ inoremap <c-h> <Left>
 " Ctrl + L 插入模式下光标向右移动
 inoremap <c-l> <Right>
 " 切换到上下左右‘最顶上、最底下的窗口中
+inoremap fk <esc><c-w>k
+inoremap fj <esc><c-w>j
+inoremap fh <esc><c-w>h
+inoremap fl <esc><c-w>l
+inoremap ft <esc><c-w>t
+inoremap fb <esc><c-w>b
 nnoremap fk <c-w>k
 nnoremap fj <c-w>j
 nnoremap fh <c-w>h
@@ -1072,13 +1099,13 @@ nnoremap fl <c-w>l
 nnoremap ft <c-w>t
 nnoremap fb <c-w>b
 " 将窗口固定到上下左右任意方向
+" 将窗口固定到上下左右任意方向
 nnoremap fK <c-w>K
 nnoremap fJ <c-w>J
 nnoremap fH <c-w>H
 nnoremap fL <c-w>L
 " 关闭所有打开窗口，不常用
 " nnoremap <Leader>qa :qall <cr>
-" <c-u>删除光标至行首 <c-m>换行
 " 行首
 nnoremap <leader>a <home>
 inoremap <leader>a <home>
@@ -1096,13 +1123,23 @@ inoremap <c-d> <esc>o
 inoremap <c-f> <bs>
 " 删除光标后一个字符
 inoremap <c-b> <del>
-" 删除光标后一个单词
+" 删除光标后一个单词，删除光标前一个单词，默认<c-w>
 inoremap <c-e> <esc>lcw
-" 删除光标后的所有字符到行尾
+" 删除光标后的所有字符到行尾，删除至行首默认为<c-u>
 inoremap <leader>da <esc>lC
 " 删除光标所在行所有字符
 inoremap <leader>dd <esc>cc
 " 大小写转换
-inoremap <leader>dc <s-~>
+inoremap <leader>dc <esc>l<s-~>i
+" 复制光标下的单词
+inoremap <leader>cw <esc>lye
+" 复制光标下的内容至行首
+inoremap <leader>ck <esc>ly<s-^>
+" 复制光标下的内容至行末
+inoremap <leader>cj <esc>ly<s-$>
+" 粘贴复制的内容在光标前
+inoremap <leader>pk <esc>lP
+" 粘贴复制的内容在光标后
+inoremap <leader>pk <esc>lp
 " 返回撤销
 noremap fu <c-r>
