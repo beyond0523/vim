@@ -636,6 +636,7 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 " -----------------------------------------------------------------------------
 " auto-pairs 插件配
 " git://github.com/jiangmiao/auto-pairs.git
+" 该插件<c-h>键映射不太科学，找到vimfiles/auto-pairs/plugin/auto-pairs.vim修改该映射
 " -----------------------------------------------------------------------------
 " 用于括号与引号自动补全，不过会与函数原型提示插件echofunc冲突
 " 所以我就没有加入echofunc插件
@@ -740,7 +741,11 @@ let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
 " <Leader>cu 取消选中区域(行)的注释，选中区域(行)内至少有一个 /* */
 " <Leader>ca 在/*...*/与//这两种注释方式中切换（其它语言可能不一样了）
 " <Leader>cA 行尾注释
-let NERDSpaceDelims = 1                     "在左注释符之后，右注释符之前留有空格
+let g:NERDSpaceDelims = 1                     "在左注释符之后，右注释符之前留有空格
+let g:NERDCustomDelimiters = {'html':{'left':'<!--','right':'-->'}}
+" 公司smarty注释格式，其它地方可取消
+let g:NERDCustomDelimiters = {'smarty':{'left':'{%*','right':'*%}'}}
+let g:NERDCustomDelimiters = {'htm':{'left':'<!--','right':'-->'}}
 
 " -----------------------------------------------------------------------------
 " nerdtree 插件配置
@@ -850,7 +855,7 @@ let g:tagbar_width=30                       "设置窗口宽度
 " -----------------------------------------------------------------------------
 " txtbrowser 插件配置
 " https://github.com/vim-scripts/TxtBrowser
-" 该插件搜索可单词翻译时出现错误，找到插件的源代码(vimfiles/bundle/TxtBrowser/plugin/txtbrowser.vim)，修改此映射键
+" 该插件搜索单词翻译时出现错误，找到插件的源代码(vimfiles/bundle/TxtBrowser/plugin/txtbrowser.vim)，修改对应搜索引擎
 " -----------------------------------------------------------------------------
 " 用于文本文件生成标签与与语法高亮（调用TagList插件生成标签，如果可以）
 au BufRead,BufNewFile *.txt setlocal ft=txt
