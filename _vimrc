@@ -241,7 +241,11 @@ endif
 
 " 设置代码配色方案
 if g:isGUI
-    colorscheme solarized                 "Gvim配色方案
+    " colorscheme solarized                 "Gvim配色方案
+    colorscheme Tomorrow-Night-Bright                 "Gvim配色方案
+    " colorscheme Tomorrow-Night-Eighties               "终端配色方案
+    " colorscheme darkburn               "终端配色方案
+    " colorscheme desert_terminal              "终端配色方案
 else
     colorscheme Tomorrow-Night-Eighties               "终端配色方案
 endif
