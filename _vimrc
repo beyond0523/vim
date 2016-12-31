@@ -109,6 +109,7 @@ let mapleader = ","
 
 " -----------------------------------------------------------------------------
 " Vundle插件管理工具配置
+" https://github.com/VundleVim/Vundle.vim
 " -----------------------------------------------------------------------------
 " 用于更方便的管理vim插件，具体用法参考 :help vundle
 " Vundle工具安装方法为在终端输入如下命令
@@ -504,11 +505,11 @@ noremap! <leader>e <esc>
 noremap <leader>e <esc>
 snoremap <leader>e <esc>
 " 粘贴模式
-nnoremap <leader>p :set paste <cr>
-inoremap <leader>p :set paste <cr>
+" nnoremap <leader>p :set paste <cr>
+" inoremap <leader>p :set paste <cr>
 " 普通模式
-nnoremap <leader>po :set nopaste <cr>
-inoremap <leader>po :set nopaste <cr>
+" nnoremap <leader>po :set nopaste <cr>
+" inoremap <leader>po :set nopaste <cr>
 " 快速进入命令模式
 nnoremap ; :
 " 盘符切换
@@ -602,5 +603,11 @@ inoremap <leader>cj <esc>ly<s-$>
 inoremap <leader>pk <esc>lP
 " 粘贴复制的内容在光标后
 inoremap <leader>pk <esc>lp
+" 垂直/水平分割当前文件
+noremap <leader>vs :split <cr>
+noremap! <leader>vs :split <cr>
+noremap <leader>vv :vsplit <cr>
+noremap! <leader>vv :vsplit <cr>
 " 返回撤销
 noremap fu <c-r>
+noremap! fu <c-r>
