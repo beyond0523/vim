@@ -1,17 +1,17 @@
 " =============================================================================
-" Function  VIM配置文件
+" Function  VIM configuration
 " Author    huangchaowei
 " Email     hcw0523beyond@163.com
 " Date      2016-12-18
 " Version   V1.0
-" :h或者:help打开vim帮助手册，:h 插件名称打开对应插件的帮助手册
-" <c-]>或者K跳转到下一个文件，<c-o>返回上一个文件
+" :h or :help for open vim manual，:h plugin name for open plugin manual
+" <c-]> or K jump to the next file，<c-o> back to the prev file
 " =============================================================================
 
 " -----------------------------------------------------------------------------
-" 操作系统判断及默认配置
+" Juge os type.
 " -----------------------------------------------------------------------------
-" 判断操作系统Windows/Linux
+" Windows/Linux
 let g:iswindows = 0
 let g:islinux = 0
 if(has("win32") || has("win64") || has("win95") || has("win16"))
@@ -20,14 +20,14 @@ else
     let g:islinux = 1
 endif
 
-" 判断是终端/Gvim
+" Console/Gvim
 if has("gui_running")
     let g:isGUI = 1
 else
     let g:isGUI = 0
 endif
 
-" windows默认配置
+" windows default configuration
 if (g:iswindows && g:isGUI)
     source $VIMRUNTIME/vimrc_example.vim
     source $VIMRUNTIME/mswin.vim
@@ -59,10 +59,10 @@ if (g:iswindows && g:isGUI)
     endfunction
 endif
 
-" Linux默认配置
+" Linux  default configuration
 if g:islinux
-    set hlsearch        "高亮搜索
-    set incsearch       "在输入要搜索的文字时，实时匹配
+    set hlsearch        "highlight search
+    set incsearch       "real time matching search
 
     " Uncomment the following to have Vim jump to the last position when
     " reopening a file
@@ -86,9 +86,9 @@ if g:islinux
             syntax on
         endif
 
-        set mouse=a                    " 在任何模式下启用鼠标
-        set t_Co=256                   " 在终端启用256色
-        set backspace=2                " 设置退格键可用
+        set mouse=a                    " enable mouse under any mode
+        set t_Co=256                   " enable 256 color under consoele
+        set backspace=2                " enable backspace key
 
         " Source a global configuration file if available
         if filereadable("/etc/vim/vimrc.local")
@@ -97,53 +97,43 @@ if g:islinux
     endif
 endif
 
-" =============================================================================
-" 全局mapleader
-" =============================================================================
-" 注：上面配置中的"<Leader>"在本软件中设置为"\"键（引号里的反斜杠），如<Leader>t
-" 指在常规模式下按"\"键加"t"键，这里不是同时按，而是先按"\"键后按"t"键，间隔在一
-" 秒内，而<Leader>cs是先按"\"键再按"c"又再按"s"键；如要修改"<leader>"键，可以把
-" 下面的设置取消注释，并修改双引号中的键为你想要的，如修改为逗号键。
-" 全局leader映射
+" global mapleader
+" for example <leader>tc ==> ,tc
 let mapleader = ","
 
 " -----------------------------------------------------------------------------
-" Vundle插件管理工具配置
+" Vundle plugin management :help vundle
 " https://github.com/VundleVim/Vundle.vim
 " -----------------------------------------------------------------------------
-" 用于更方便的管理vim插件，具体用法参考 :help vundle
-" Vundle工具安装方法为在终端输入如下命令
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/vundle
-" 如果想在 windows 安装就必需先安装 "git for window"，可查阅网上资料
 " -----------------------------------------------------------------------------
-set nocompatible                                      "禁用 Vi 兼容模式
-filetype off                                          "禁用文件类型侦测
+set nocompatible                                      " disable vi compatible mode
+filetype off                                          " disable check file type
 
 if g:islinux
-    " 旧bundle方式
+    " old way
     " set rtp+=~/.vim/bundle/vundle/
     " call vundle#rc()
-    " 新bundle方式
+    " new way
     set rtp+=~/.vim/bundle/vundle/
     call vundle#begin('~/.vim/bundle/')
 else
-    " 旧bundle方式
+    " old way
     " set rtp+=$VIM/vimfiles/bundle/vundle/
     " call vundle#rc('$VIM/vimfiles/bundle/')
-    " 新bundle方式
+    " new way
     set rtp+=$VIM/vimfiles/bundle/vundle/
     call vundle#begin('$VIM/vimfiles/bundle/')
 endif
 
-" 使用Vundle来管理插件，这个必须要有。新方式将bundle替换为plugin
+" use Vundle for manag plugin。
 Plugin 'gmarik/vundle'
-" 括号自动补全
 Plugin 'jiangmiao/auto-pairs'
-" 主要功能是对文件以及buffer进行模糊查询，快速打开文件。
+" fuzzy query document and buffer, then fast open the file主要功能是对文件以及buffer进行模糊查询，快速打开文件。
 Plugin 'ctrlpvim/ctrlp.vim'
-" zendcoding 的升级插件，实现html和css代码的快速编写
+" zendcoding fast write html and css
 Plugin 'mattn/emmet-vim'
-" 缩进提示线
+" show indent line
 Plugin 'Yggdroot/indentLine'
 " 主要功能是进行代码补全
 Plugin 'Shougo/neocomplcache.vim'
@@ -170,13 +160,6 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'terryma/vim-multiple-cursors'
 " 新方式
 call vundle#end()
-
-" 安装插件
-nnoremap <leader>bi :PluginInstall <cr>
-" 更新插件
-nnoremap <leader>bu :PluginUpdate <cr>
-" 卸载插件
-nnoremap <leader>bc :PluginClean <cr>
 
 " -----------------------------------------------------------------------------
 " 编码配置
@@ -494,25 +477,31 @@ function s:shellFile()
  endfunction
 
 " =============================================================================
-" 键盘映射
+" Key map
 " =============================================================================
-" 保存
+" install plugin
+nnoremap <leader>bi :PluginInstall <cr>
+" update plugin
+nnoremap <leader>bu :PluginUpdate <cr>
+" uninstall plugin
+nnoremap <leader>bc :PluginClean <cr>
+" Save
 nnoremap w :w <cr>
-" 退出
+" Quit
 nnoremap q :q! <cr>
-" 返回普通模式
+" Return to normal mode.
 noremap! <leader>e <esc>
 noremap <leader>e <esc>
 snoremap <leader>e <esc>
-" 粘贴模式
+" Change normal mode to paste mode.
 " nnoremap <leader>p :set paste <cr>
 " inoremap <leader>p :set paste <cr>
-" 普通模式
+" Change paster mode to normal mode.
 " nnoremap <leader>po :set nopaste <cr>
 " inoremap <leader>po :set nopaste <cr>
-" 快速进入命令模式
+" Enter command mode.
 nnoremap ; :
-" 盘符切换
+" Change disk.
 nnoremap <leader>jc :NERDTree c:\\ <cr>
 nnoremap <leader>jd :NERDTree d:\\ <cr>
 nnoremap <leader>je :NERDTree e:\\ <cr>
@@ -521,36 +510,36 @@ nnoremap <leader>jg :NERDTree g:\\ <cr>
 nnoremap <leader>jx :NERDTree x:\\ <cr>
 nnoremap <leader>jy :NERDTree y:\\ <cr>
 nnoremap <leader>jz :NERDTree z:\\ <cr>
-" 运行php代码
+" Run php code. 
 nnoremap <leader>rp :!php % <cr>
-" 正常模式下 alt+j,k,h,l 调整分割窗口大小
+" alt+j,k,h,l Resize the window size.
 nnoremap <m-j> :resize +5<cr>
 nnoremap <m-k> :resize -5<cr>
 nnoremap <m-h> :vertical resize -5<cr>
 nnoremap <m-l> :vertical resize +5<cr>
-" 新建
+" New tab.
 nnoremap fo :tabnew <cr>
-" 前一个
+" Go next tab.
 nnoremap fp :tabp <cr>
-" 后一个
+" Go prev tab.
 nnoremap fn :tabn <cr>
-" 查看所有
+" See all tabs.
 nnoremap fs :tabs <cr>
-" 关闭当前
+" Close current tab.
 nnoremap ff :tabc <cr>
-" 关闭所有
+" Close all tab.
 nnoremap fa :tabo <cr>
-" 常规模式下用空格键来开关光标行所在折叠（注：zR 展开所有折叠，zM 关闭所有折叠）
+" Open/close indent.
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-" Ctrl + K 插入模式下光标向上移动
+" Move up.
 inoremap <c-k> <Up>
-" Ctrl + J 插入模式下光标向下移动
+" Move down.
 inoremap <c-j> <Down>
-" Ctrl + H 插入模式下光标向左移动
+" Move left.
 inoremap <c-h> <Left>
-" Ctrl + L 插入模式下光标向右移动
+" Move right.
 inoremap <c-l> <Right>
-" 切换到上下左右‘最顶上、最底下的窗口中
+" Switch windows.
 inoremap fk <esc><c-w>k
 inoremap fj <esc><c-w>j
 inoremap fh <esc><c-w>h
@@ -563,23 +552,23 @@ nnoremap fh <c-w>h
 nnoremap fl <c-w>l
 nnoremap ft <c-w>t
 nnoremap fb <c-w>b
-" 将窗口固定到上下左右任意方向
+" Change window direction.
 nnoremap fK <c-w>K
 nnoremap fJ <c-w>J
 nnoremap fH <c-w>H
 nnoremap fL <c-w>L
-" 行首
+" Top of the line.
 nnoremap <leader>a <home>
 inoremap <leader>a <home>
-" 行尾
+" End of the line.
 nnoremap <leader>n <end>
 inoremap <leader>n <end>
-" 移动一个单词
+" Move a word.
 inoremap <m-l> <c-right>
 inoremap <m-h> <c-left>
-" 上一行插入内容
+" Insert content in the last line.
 inoremap <c-o> <esc>O
-" 下行插入内容
+" Insert content in the next line.
 inoremap <c-d> <esc>o
 " 删除光标前一个字符
 inoremap <c-f> <bs>
@@ -608,6 +597,6 @@ noremap <leader>vs :split <cr>
 noremap! <leader>vs :split <cr>
 noremap <leader>vv :vsplit <cr>
 noremap! <leader>vv :vsplit <cr>
-" 返回撤销
+" Restore operation.
 noremap fu <c-r>
 noremap! fu <c-r>
