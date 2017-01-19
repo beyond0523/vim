@@ -127,7 +127,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " zendcoding fast write html and css
 Plugin 'mattn/emmet-vim'
 " show indent line
-Plugin 'Yggdroot/indentLine'
+" Plugin 'Yggdroot/indentLine'
 " code completion
 Plugin 'Shougo/neocomplcache.vim'
 " code annotation
@@ -137,11 +137,11 @@ Plugin 'scrooloose/nerdtree'
 " bottom line
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tpope/vim-surround'
+" Plugin 'tpope/vim-surround'
 " check syntax
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
 " show parameter
-Plugin 'majutsushi/tagbar'
+" Plugin 'majutsushi/tagbar'
 " txt browser
 Plugin 'TxtBrowser'
 " fast jump
@@ -247,7 +247,7 @@ set noundofile
 au BufRead,BufNewFile,BufEnter * cd %:p:h
 
 " -----------------------------------------------------------------------------
-" git://github.com/jiangmiao/auto-pairs.git
+" https://github.com/jiangmiao/auto-pairs.git
 " modify <c-h> map
 " -----------------------------------------------------------------------------
 
@@ -266,11 +266,11 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 " -----------------------------------------------------------------------------
 " open/close
 " let g:indentLine_enabled = 0
-nnoremap <leader>il :IndentLinesToggle<CR>
-if g:isGUI
-    let g:indentLine_char = "┊"
-    let g:indentLine_first_char = "|"
-endif
+" nnoremap <leader>il :IndentLinesToggle<CR>
+" if g:isGUI
+    " let g:indentLine_char = "┊"
+    " let g:indentLine_first_char = "|"
+" endif
 
 " -----------------------------------------------------------------------------
 " https://github.com/Shougo/neocomplcache.vim
@@ -292,7 +292,7 @@ let g:NERDCustomDelimiters = {'htm':{'left':'<!--','right':'-->'}}
 " https://github.com/scrooloose/nerdtree
 " modify CD map
 " -----------------------------------------------------------------------------
-nnoremap to :NERDTreeToggle<cr>
+nnoremap <leader>l :NERDTreeToggle<cr>
 
 " -----------------------------------------------------------------------------
 " https://github.com/vim-airline/vim-airline
@@ -316,8 +316,8 @@ let g:airline_theme='powerlineish'
 " -----------------------------------------------------------------------------
 " close taglist then show tagbar
 " nnoremap tb :TlistClose<CR>:TagbarToggle<CR>
-nnoremap tb :TagbarToggle<CR>
-let g:tagbar_width=30
+" nnoremap tb :TagbarToggle<CR>
+" let g:tagbar_width=30
 " let g:tagbar_left=1
 
 " -----------------------------------------------------------------------------
@@ -372,7 +372,7 @@ if (g:iswindows && g:isGUI)
 
     nnoremap <c-up> :call Alpha_add()<CR>
     nnoremap <c-down> :call Alpha_sub()<CR>
-    nnoremap <leader>t :call Top_window()<CR>
+    nnoremap <leader>wi :call Top_window()<CR>
 endif
 
 " =============================================================================
@@ -410,11 +410,11 @@ function s:shellFile()
 " Key map
 " =============================================================================
 " install plugin
-nnoremap <leader>bi :PluginInstall <cr>
+" nnoremap <leader>bi :PluginInstall <cr>
 " update plugin
-nnoremap <leader>bu :PluginUpdate <cr>
+" nnoremap <leader>bu :PluginUpdate <cr>
 " uninstall plugin
-nnoremap <leader>bc :PluginClean <cr>
+" nnoremap <leader>bc :PluginClean <cr>
 " Save
 nnoremap w :w <cr>
 " Quit
@@ -441,24 +441,24 @@ nnoremap <leader>jx :NERDTree x:\\ <cr>
 nnoremap <leader>jy :NERDTree y:\\ <cr>
 nnoremap <leader>jz :NERDTree z:\\ <cr>
 " Run php code. 
-nnoremap <leader>rp :!php % <cr>
+" nnoremap <leader>rp :!php % <cr>
 " alt+j,k,h,l Resize the window size.
 nnoremap <m-j> :resize +5<cr>
 nnoremap <m-k> :resize -5<cr>
 nnoremap <m-h> :vertical resize -5<cr>
 nnoremap <m-l> :vertical resize +5<cr>
 " New tab.
-nnoremap fo :tabnew <cr>
+nnoremap tn :tabnew <cr>
 " Go next tab.
-nnoremap fp :tabp <cr>
+nnoremap tp :tabp <cr>
 " Go prev tab.
-nnoremap fn :tabn <cr>
+nnoremap te :tabn <cr>
 " See all tabs.
-nnoremap fs :tabs <cr>
+nnoremap ts :tabs <cr>
 " Close current tab.
-nnoremap ff :tabc <cr>
+nnoremap tc :tabc <cr>
 " Close all tab.
-nnoremap fa :tabo <cr>
+nnoremap to :tabo <cr>
 " Open/close indent.
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 " Move up.
@@ -470,23 +470,23 @@ inoremap <c-h> <Left>
 " Move right.
 inoremap <c-l> <Right>
 " Switch windows.
-inoremap fk <esc><c-w>k
-inoremap fj <esc><c-w>j
-inoremap fh <esc><c-w>h
-inoremap fl <esc><c-w>l
-inoremap ft <esc><c-w>t
-inoremap fb <esc><c-w>b
-nnoremap fk <c-w>k
-nnoremap fj <c-w>j
-nnoremap fh <c-w>h
-nnoremap fl <c-w>l
-nnoremap ft <c-w>t
-nnoremap fb <c-w>b
+inoremap gk <esc><c-w>k
+inoremap gj <esc><c-w>j
+inoremap gh <esc><c-w>h
+inoremap gl <esc><c-w>l
+inoremap gt <esc><c-w>t
+inoremap gb <esc><c-w>b
+nnoremap gk <c-w>k
+nnoremap gj <c-w>j
+nnoremap gh <c-w>h
+nnoremap gl <c-w>l
+nnoremap gt <c-w>t
+nnoremap gb <c-w>b
 " Change window direction.
-nnoremap fK <c-w>K
-nnoremap fJ <c-w>J
-nnoremap fH <c-w>H
-nnoremap fL <c-w>L
+nnoremap ga <c-w>K
+nnoremap gc <c-w>J
+nnoremap gd <c-w>H
+nnoremap ge <c-w>L
 " Top of the line.
 nnoremap <leader>a <home>
 inoremap <leader>a <home>
@@ -523,15 +523,19 @@ inoremap <leader>pk <esc>lP
 " paste msg after current cursor
 inoremap <leader>pk <esc>lp
 " split/vsplit current file
-noremap <leader>vs :split <cr>
-noremap! <leader>vs :split <cr>
-noremap <leader>vv :vsplit <cr>
-noremap! <leader>vv :vsplit <cr>
+noremap <silent><leader>vs :split <cr>
+noremap! <silent><leader>vs :split <cr>
+noremap <silent><leader>vv :vsplit <cr>
+noremap! <silent><leader>vv :vsplit <cr>
 " set help manual language
-nnoremap <leader>hc :set helplang=cn <cr>
-nnoremap <leader>he :set helplang=en <cr>
+nnoremap <silent><leader>hc :set helplang=cn <cr>
+nnoremap <silent><leader>he :set helplang=en <cr>
 " hide word type
 " nnoremap <leader>hh :set conceallevel=0 <cr>
 " Restore operation.
-noremap fu <c-r>
-noremap! fu <c-r>
+noremap <leader>rr <c-r>
+noremap! <leader>rr <c-r>
+" count file information
+" noremap <leader>fi g<c-g>
+" clear search highlight
+noremap <silent><leader>jr :nohls <cr>
