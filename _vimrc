@@ -519,9 +519,7 @@ inoremap <leader>ck <esc>ly<s-^>
 " copy current cursor to end
 inoremap <leader>cj <esc>ly<s-$>
 " paste msg before current cursor
-inoremap <leader>pk <esc>lP
-" paste msg after current cursor
-inoremap <leader>pk <esc>lp
+inoremap <leader>pk <esc>p
 " split/vsplit current file
 noremap <silent><leader>vs :split <cr>
 noremap! <silent><leader>vs :split <cr>
