@@ -536,4 +536,8 @@ noremap! <leader>rr <c-r>
 " count file information
 " noremap <leader>fi g<c-g>
 " clear search highlight
-noremap <silent><leader>jr :nohls <cr>
+noremap <leader>jr :nohls <cr>
+" increase the indent
+noremap <leader>di <s->>
+" decrease the indent
+noremap <leader>de <s-<>
