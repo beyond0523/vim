@@ -7,6 +7,7 @@
 " :h or :help for open vim manual，:h plugin name for open plugin manual
 " <c-]> or K jump to the next file，<c-o> back to the prev file
 " :script 查看加载的脚本文件
+" :X 加密文件
 " =============================================================================
 
 " Windows/Linux
